@@ -19,11 +19,14 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "$/*": [
+        "./schemas/*"
       ]
     },
     "typeRoots": [
       "./node_modules/@types",
-      "./src/types"
+      "./src/types",
     ],
     "plugins": [
       {
