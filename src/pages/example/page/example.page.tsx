@@ -1,35 +1,18 @@
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+
 import {
   DropdownMenu,
+  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Inter } from "next/font/google";
-import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export default function Home() {
+export function ExamplePage() {
   const [position, setPosition] = useState("bottom");
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const res = await fetch("/api/hello");
-        const data = await res.json();
-
-        console.log(data);
-      } catch (err) {
-        // .keep
-      }
-    };
-
-    fetchUsers();
-  }, []);
 
   return (
     <>
