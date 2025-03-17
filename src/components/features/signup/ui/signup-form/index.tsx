@@ -14,27 +14,40 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import type { SignInFormData } from "$/signin.schema";
-import { signInSchema } from "$/signin.schema";
+import type { SignUpFormData } from "$/signup.schema";
+import { signUpSchema } from "$/signup.schema";
+import { useSignup } from "@/entities/signup";
+import { navigate } from "@/lib/navigate";
 
-export function SignInForm() {
-  const form = useForm<SignInFormData>({
+export function SignUpForm() {
+  const { mutateAsync, isPending } = useSignup({
+    onSuccess() {
+      navigate({ href: "/signin" });
+    },
+  });
+
+  const form = useForm<SignUpFormData>({
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
-    resolver: yupResolver(signInSchema),
+    resolver: yupResolver(signUpSchema),
   });
 
-  const onSubmit = useCallback((values: SignInFormData) => {
-    console.log(values);
-  }, []);
+  const onSubmit = useCallback(
+    async (values: SignUpFormData) => {
+      await mutateAsync(values);
+    },
+    [mutateAsync]
+  );
 
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Вход в аккаунт</CardTitle>
+        <CardTitle>Регистрация</CardTitle>
       </CardHeader>
+
       <CardContent>
         <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
@@ -51,12 +64,13 @@ export function SignInForm() {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Пароль</FormLabel>
+                  <FormLabel>Придумайте пароль</FormLabel>
                   <FormControl>
                     <Input placeholder="******" type="password" {...field} />
                   </FormControl>
@@ -64,23 +78,29 @@ export function SignInForm() {
                 </FormItem>
               )}
             />
-            <div className="text-right text-sm">
-              <Link
-                href="/forgot-password"
-                className="text-blue-500 hover:underline"
-              >
-                Забыли пароль?
-              </Link>
-            </div>
 
-            <Button type="submit" className="w-full">
-              Войти
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Повторите пароль</FormLabel>
+                  <FormControl>
+                    <Input placeholder="******" type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button type="submit" className="w-full" isLoading={isPending}>
+              {isPending ? "Регистрируем" : "Зарегистрироваться"}
             </Button>
 
             <div className="text-center text-sm">
-              У вас ещё нет аккаунта?{" "}
-              <Link href="/signup" className="text-blue-500 hover:underline">
-                Зарегистрироваться
+              Уже есть аккаунт?{" "}
+              <Link href="/signin" className="text-blue-500 hover:underline">
+                Войти
               </Link>
             </div>
           </form>
