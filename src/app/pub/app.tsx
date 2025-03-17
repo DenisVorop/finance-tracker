@@ -19,7 +19,7 @@ export function _App({
 
   return (
     <AppProvider initialState={initialState}>
-      <div className="flex flex-col flex-grow flex-shrink-0 basis-full">
+      <div className="flex flex-col flex-grow flex-shrink-0 basis-full bg-gradient-to-tl from-black via-neutral-950 to-stone-900 to-90%">
         {withLayout(<Component {...restProps} />)}
       </div>
     </AppProvider>
