@@ -16,8 +16,16 @@ import {
 import { Input } from "@/components/ui/input";
 import type { SignInFormData } from "$/signin.schema";
 import { signInSchema } from "$/signin.schema";
+import { useSignin } from "@/entities/auth";
+import { navigate } from "@/lib/navigate";
 
 export function SignInForm() {
+  const { mutateAsync } = useSignin({
+    onSuccess() {
+      navigate({ href: "/" });
+    },
+  });
+
   const form = useForm<SignInFormData>({
     defaultValues: {
       email: "",
@@ -26,9 +34,12 @@ export function SignInForm() {
     resolver: yupResolver(signInSchema),
   });
 
-  const onSubmit = useCallback((values: SignInFormData) => {
-    console.log(values);
-  }, []);
+  const onSubmit = useCallback(
+    async (values: SignInFormData) => {
+      await mutateAsync(values);
+    },
+    [mutateAsync]
+  );
 
   return (
     <Card className="w-full">

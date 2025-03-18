@@ -5,7 +5,7 @@ import { createHttpClient } from "../create-http-client";
 
 const { apiPath } = getConfig().publicRuntimeConfig;
 
-export async function signupApiInstance<T>(
+export async function authApiInstance<T>(
   config: AxiosRequestConfig,
   options?: AxiosRequestConfig
 ): Promise<T> {

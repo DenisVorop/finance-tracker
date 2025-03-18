@@ -3,32 +3,19 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "@/lib/prisma";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET":
       return await GET(req, res);
-    case "POST":
-      return await POST(req, res);
-    case "PUT":
-      return await PUT(req, res);
-    case "DELETE":
-      return await DELETE(req, res);
     default:
       throw new Error("Unknown method");
   }
 }
+
+export default handler;
 
 async function GET(req: NextApiRequest, res: NextApiResponse) {
   const users = await prisma.user.findMany();
 
   return res.status(200).json({ hello: "world", users });
 }
-
-async function POST(req: NextApiRequest, res: NextApiResponse) {}
-
-async function PUT(req: NextApiRequest, res: NextApiResponse) {}
-
-async function DELETE(req: NextApiRequest, res: NextApiResponse) {}
