@@ -1,6 +1,7 @@
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 
 import { selectPropositionsFromCtx } from "@/entities/example";
+import { setUserFromCtx } from "@/entities/auth";
 
 export class StateBuilder {
   readonly _ctx: App.PageContext;
@@ -16,6 +17,7 @@ export class StateBuilder {
   }
 
   setBaseData() {
+    this._state.setQueryData(...setUserFromCtx(this._ctx));
     this._state.setQueryData(...selectPropositionsFromCtx(this._ctx));
     return this;
   }

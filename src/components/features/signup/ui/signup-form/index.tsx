@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import type { SignUpFormData } from "$/signup.schema";
 import { signUpSchema } from "$/signup.schema";
-import { useSignup } from "@/entities/signup";
+import { useSignup } from "@/entities/auth";
 import { navigate } from "@/lib/navigate";
 
 export function SignUpForm() {

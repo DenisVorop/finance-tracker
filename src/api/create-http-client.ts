@@ -10,5 +10,6 @@ export function createHttpClient(baseURL: string) {
       Accept: "application/json",
     },
     baseURL,
+    withCredentials: true,
   });
 }
