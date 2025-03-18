@@ -18,10 +18,13 @@
     "incremental": true,
     "paths": {
       "@/*": [
-        "./src/*"
+        "./src/client/*"
       ],
       "$/*": [
-        "./schemas/*"
+        "./src/server/*"
+      ],
+      "common/*": [
+        "./src/common/*"
       ]
     },
     "typeRoots": [
