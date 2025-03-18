@@ -19,7 +19,7 @@ declare namespace App {
 
   /** Extensions */
   type Example = import("path/to/module").Example;
-  type User = import("@/api/auth").SessionResponse["data"];
+  type User = import("@/shared/api/auth").SessionResponse["data"];
 
   interface IncomingMessage<B extends Record<string, unknown> = unknown>
     extends BaseIncomingMessage {
@@ -44,11 +44,5 @@ declare namespace App {
 
   export interface DocumentContext extends NextDocumentContext {
     req: IncomingMessage;
-  }
-}
-
-declare namespace Types {
-  export interface VoidResponse {
-    status: "ok";
   }
 }

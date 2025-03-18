@@ -30,6 +30,8 @@
         "prefer": "type-imports",
         "fixStyle": "separate-type-imports"
       }
-    ]
+    ],
+    "no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars": "warn"
   }
 }
