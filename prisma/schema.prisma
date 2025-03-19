@@ -18,6 +18,28 @@ enum Role {
   ADMIN
 }
 
+enum BillType {
+  REGULAR // Обычный
+  SAVINGS // Накопительный
+  DEBT_OWE // Долговой; я должен
+  DEBT_LEND // Долговой; мне должны
+}
+
+model Bill {
+  id              Int      @id @default(autoincrement())
+  name            String
+  type            BillType
+  backgroundColor String
+  emoji           String
+  description     String?
+  balance         Decimal  @default(0.00)
+  includeInTotal  Boolean  @default(true)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          Int
+  createdAt       DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt       DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+}
+
 model User {
   id        Int       @id @default(autoincrement())
   email     String    @unique
@@ -27,6 +49,7 @@ model User {
   sessions  Session[]
   createdAt DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   updatedAt DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+  Bill      Bill[]
 }
 
 model Session {
