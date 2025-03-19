@@ -1,16 +1,15 @@
+import { DefaultLayout } from "@/app/layouts";
 import { StateBuilder } from "@/app/lib/state-builder";
-import { exampleApi } from "@/shared/api/example";
-import { ExamplePage } from "@/pages/example";
+import { BillsPage } from "@/pages/bills";
+import { injectLayout } from "@/shared/lib/next";
 import { protectedRoute } from "common/lib/protected-route";
 
-export default ExamplePage;
+injectLayout(BillsPage, DefaultLayout);
+
+export default BillsPage;
 
 export const getServerSideProps = protectedRoute(
   async (ctx: App.PageContext) => {
-    const example = await exampleApi.getExample();
-
-    ctx.req.__EXAMPLE__ = example;
-
     const initialState = StateBuilder.Init(ctx).setBaseData().build();
 
     return { props: { initialState } };

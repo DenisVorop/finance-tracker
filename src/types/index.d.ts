@@ -19,7 +19,7 @@ declare namespace App {
 
   /** Extensions */
   type Example = import("path/to/module").Example;
-  type User = import("@/shared/api/auth").SessionResponse["data"];
+  type User = import("common/types/session.types").SessionDto["user"];
 
   interface IncomingMessage<B extends Record<string, unknown> = unknown>
     extends BaseIncomingMessage {

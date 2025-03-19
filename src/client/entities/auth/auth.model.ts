@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import type { SignInResponse } from "@/shared/api/auth";
 import { authApi } from "@/shared/api/auth";
 import { navigate } from "@/shared/lib/navigate";
+import type { SessionDto } from "common/types/session.types";
 
 const baseKey = "auth";
 
@@ -13,14 +13,13 @@ export const setUserFromCtx = (ctx: App.PageContext) => {
 export function useAuth() {
   const qClient = useQueryClient();
 
-  const { data } = useQuery<SignInResponse | null>({
+  const { data } = useQuery<SessionDto["user"]>({
     queryKey: [baseKey],
-    queryFn: () => qClient.getQueryData([baseKey]) as SignInResponse | null,
-    initialData: null,
+    queryFn: () => qClient.getQueryData([baseKey]) as SessionDto["user"],
   });
 
   const { mutate } = useMutation({
-    mutationFn: async (data: SignInResponse) =>
+    mutationFn: async (data: SessionDto["user"]) =>
       qClient.setQueryData([baseKey], data),
   });
 
@@ -44,14 +43,9 @@ export function useSignin({
   onSuccess,
   onError,
 }: { onSuccess?: () => void; onError?: () => void } = {}) {
-  const [, setAuthData] = useAuth();
-
   const data = useMutation({
     mutationFn: authApi.signin,
-    onSuccess(data) {
-      setAuthData(data);
-      onSuccess?.();
-    },
+    onSuccess,
     onError,
   });
 
