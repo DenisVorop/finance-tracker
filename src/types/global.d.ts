@@ -6,6 +6,6 @@ declare module "next" {
   import type { NextApiRequest } from "next";
 
   interface NextApiRequest {
-    __USER__?: Omit<User, "password">;
+    __USER__: Omit<User, "password">;
   }
 }
