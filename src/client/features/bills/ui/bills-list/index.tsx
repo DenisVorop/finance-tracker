@@ -1,5 +1,7 @@
 import { BillCard, useBills } from "@/entities/bills";
 
+import { AddBillCard } from "../add-bill-card";
+
 export function BillsList() {
   const { data } = useBills();
   return (
@@ -7,6 +9,8 @@ export function BillsList() {
       {data?.data.map((bill) => {
         return <BillCard key={bill.id} {...bill} />;
       })}
+
+      <AddBillCard />
     </div>
   );
 }

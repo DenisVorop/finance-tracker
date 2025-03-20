@@ -7,6 +7,9 @@ export function DefaultLayout({ children }: { children: ReactNode }) {
     <>
       <Header />
       {children}
+
+      {/* Под прибитую шапку на мобилке */}
+      <div className="h-[77px] md:h-0" />
     </>
   );
 }

@@ -10,7 +10,7 @@ export function MobileHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="fixed left-0 right-0 bottom-0 flex items-center px-6 py-4 shadow-sm justify-center bg-gradient-to-bl from-black via-stone-900 to-black border-t border-t-neutral-900">
+    <header className="fixed z-[2] left-0 right-0 bottom-0 flex items-center px-6 py-4 shadow-sm justify-center bg-gradient-to-bl from-black via-stone-900 to-black border-t border-t-neutral-900">
       <nav className="flex items-center justify-between gap-4 flex-auto">
         {config.map(({ Icon, label, link }) => (
           <Link href={link} key={label}>
