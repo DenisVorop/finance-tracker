@@ -14,7 +14,7 @@ export const config = [
   {
     label: "Операции",
     Icon: Home,
-    link: "/operations",
+    link: "/transactions",
   },
   {
     label: "Отчёты",
