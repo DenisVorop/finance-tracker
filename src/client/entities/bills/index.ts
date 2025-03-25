@@ -1,4 +1,10 @@
-export { setBillsFromCtx, useBills, useCreateBill } from "./model/bills.model";
+export {
+  setBillsFromCtx,
+  useBills,
+  useCreateBill,
+  setBillFromCtx,
+  useBill,
+} from "./model/bills.model";
 
 export { BillCard } from "./ui/bill-card";
 
