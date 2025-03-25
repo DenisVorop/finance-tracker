@@ -32,14 +32,11 @@ export class TransactionsService {
 
       if (to) {
         const toDate = new Date(to as string);
-        console.log('Parsed to date:', toDate);
         whereCondition.date = {
           ...whereCondition.date,
           lte: toDate
         };
       }
-
-      console.log('Where condition:', JSON.stringify(whereCondition, null, 2));
 
       const transactions = await prisma.transaction.findMany({
         where: whereCondition,
@@ -51,21 +48,12 @@ export class TransactionsService {
           }
         },
         orderBy: {
-          date: 'desc'
+          date: "desc"
         }
       }) as TransactionWithBill[];
 
-      console.log('Found transactions:', transactions.length);
-
       return TransactionsModel.fromDTO({
-        data: transactions.map((transaction) => ({
-          id: transaction.id,
-          date: transaction.date,
-          amount: Number(transaction.amount),
-          description: transaction.description || "",
-          category: transaction.category,
-          billName: transaction.bill.name
-        })),
+        data: transactions
       });
     } catch (error) {
       console.error('Error fetching transactions:', error);
