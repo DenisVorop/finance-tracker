@@ -43,20 +43,10 @@ export class AuthService {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const user = await prisma.user.create({
+      await prisma.user.create({
         data: {
           email,
           password: hashedPassword,
-        },
-      });
-
-      await prisma.bill.create({
-        data: {
-          userId: user.id,
-          name: "Основной счёт",
-          type: "REGULAR",
-          backgroundColor: "#33FF57",
-          emoji: "💰",
         },
       });
 
