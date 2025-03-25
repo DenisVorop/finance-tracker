@@ -53,7 +53,6 @@ export class TransactionsService {
         data: transactions
       });
     } catch (error) {
-      console.error('Error fetching transactions:', error);
       return TransactionsModel.Error({ code: 500, message: "Internal Server Error" });
     }
   }
