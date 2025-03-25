@@ -1,5 +1,7 @@
 "use client";
 
+import { useCallback } from "react";
+
 import { useResponsiveModal } from "@/shared/hooks/use-responsive-modal";
 import { Card, CardContent, CardHeader } from "@/shared/ui/card";
 import { Skeleton } from "@/shared/ui/skeleton";
@@ -10,16 +12,21 @@ import { useBillForm } from "../../providers/bill-form.provider";
 
 function AddBillCardBase() {
   const { Modal, ModalTrigger } = useResponsiveModal();
-  const { methods } = useBillForm();
+  const { methods, openModal, toggle } = useBillForm();
+
+  const onOpenChange = useCallback(
+    (isOpen: boolean) => {
+      if (!isOpen) {
+        methods.reset();
+      }
+
+      toggle();
+    },
+    [methods, toggle]
+  );
 
   return (
-    <Modal
-      onOpenChange={(isOpen) => {
-        if (!isOpen) {
-          methods.reset();
-        }
-      }}
-    >
+    <Modal open={openModal} onOpenChange={onOpenChange}>
       <ModalTrigger>
         <Card className="hover:border-primary cursor-pointer transition-colors animate-pulse">
           <CardHeader className="flex items-center justify-between gap-4 flex-row">

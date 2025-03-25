@@ -1,7 +1,7 @@
 import type { AppProps } from "next/app";
 import type { DehydratedState } from "@tanstack/react-query";
 
-import type { PageWithLayout } from "@/lib/next";
+import type { PageWithLayout } from "@/shared/lib/next";
 
 import { AppProvider } from "../providers/app.provider";
 

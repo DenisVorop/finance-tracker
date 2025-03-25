@@ -1,7 +1,4 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
@@ -17,28 +14,22 @@ import { Switch } from "@/shared/ui/switch";
 import { Textarea } from "@/shared/ui/textarea";
 import { useResponsiveModal } from "@/shared/hooks/use-responsive-modal";
 import { BillType } from "common/types/bill.types";
-import { billTypesMap } from "@/entities/bills";
+import { billTypesMap, useCreateBill } from "@/entities/bills";
+import type { BillFormData } from "common/schemas/bill.schema";
 
 import { useBillForm } from "../../providers/bill-form.provider";
-import type { FormValues } from "../../lib/schema";
 
 export function AddBillForm() {
+  const { methods, toggle } = useBillForm();
+
   const { ModalHeader, ModalTitle, ModalContent, ModalClose } =
     useResponsiveModal();
 
-  const { methods } = useBillForm();
-
-  const [loading, setLoading] = useState(false);
-
-  const onSubmit = async (data: FormValues) => {
-    setLoading(true);
-    console.log("Форма отправлена:", data);
-    setLoading(false);
-  };
-
-  const onClose = useCallback(() => {
-    methods.reset();
-  }, [methods]);
+  const { createBill, isPending } = useCreateBill({
+    onSuccess: () => {
+      toggle();
+    },
+  });
 
   return (
     <ModalContent side="bottom">
@@ -47,7 +38,7 @@ export function AddBillForm() {
       </ModalHeader>
 
       <form
-        onSubmit={methods.handleSubmit(onSubmit)}
+        onSubmit={methods.handleSubmit(createBill)}
         className="flex flex-col gap-4 mt-4"
       >
         <div className="grid lg:grid-cols-2 gap-4">
@@ -71,7 +62,7 @@ export function AddBillForm() {
             <Label>Тип счёта</Label>
             <Select
               onValueChange={(value) =>
-                methods.setValue("type", value as FormValues["type"])
+                methods.setValue("type", value as BillFormData["type"])
               }
               defaultValue={methods.getValues("type")}
             >
@@ -182,13 +173,13 @@ export function AddBillForm() {
 
         {/* Кнопки */}
         <div className="flex justify-end gap-2">
-          <ModalClose onClick={onClose}>
+          <ModalClose>
             <Button type="button" variant="outline">
               Отменить
             </Button>
           </ModalClose>
-          <Button type="submit" disabled={loading}>
-            {loading ? "Создание..." : "Создать"}
+          <Button type="submit" disabled={isPending}>
+            {isPending ? "Создание..." : "Создать"}
           </Button>
         </div>
       </form>

@@ -10,10 +10,14 @@ export function BillCard({
   emoji,
   type,
   balance,
-}: Bill) {
+  className,
+}: Bill & { className?: string }) {
   const { r, g, b } = hexToRgb(backgroundColor);
   return (
-    <Card style={{ backgroundColor: `rgba(${r}, ${g}, ${b}, 0.2)` }}>
+    <Card
+      style={{ backgroundColor: `rgba(${r}, ${g}, ${b}, 0.2)` }}
+      className={className}
+    >
       <CardHeader className="flex items-center justify-between gap-4 flex-row">
         <div className="text font-medium">{name}</div>
         <div>{emoji}</div>
