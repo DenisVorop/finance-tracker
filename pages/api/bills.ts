@@ -7,6 +7,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET":
       return BillsController.GetBills(req, res);
+    case "POST":
+      return BillsController.CreateBill(req, res);
     default:
       return res.status(405).json({ error: "Метод не разрешён" });
   }
