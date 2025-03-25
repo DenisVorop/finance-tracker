@@ -7,7 +7,7 @@ async function main() {
   // Создание пользователя
   const passwordHash = await bcrypt.hash("adminadmin", 10);
   const user = await prisma.user.upsert({
-    where: { email: "user@example.com" },
+    where: { email: "admin@yandex.ru" },
     update: {},
     create: {
       email: "admin@yandex.ru",
@@ -17,7 +17,9 @@ async function main() {
     },
   });
 
-  await prisma.bill.createMany({
+  // Создание счетов
+  await prisma.bill.deleteMany(); // Очищаем существующие счета
+  const bills = await prisma.bill.createMany({
     data: [
       {
         name: "Основной счёт",
@@ -56,6 +58,67 @@ async function main() {
         userId: user.id,
       },
     ],
+  });
+
+  // Получаем ID основного счета
+  const mainBill = await prisma.bill.findFirst({
+    where: {
+      name: "Основной счёт",
+      userId: user.id
+    }
+  });
+
+  if (!mainBill) {
+    throw new Error("Основной счет не найден");
+  }
+
+  // Создание транзакций
+  await prisma.transaction.deleteMany(); // Очищаем существующие транзакции
+  await prisma.transaction.createMany({
+    data: [
+      {
+        date: new Date("2025-03-01"),
+        amount: -3500,
+        description: "Закупка на неделю в супермаркете",
+        category: "Продукты",
+        billId: mainBill.id
+      },
+      {
+        date: new Date("2025-03-03"),
+        amount: -2000,
+        description: "Заправка автомобиля",
+        category: "Транспорт",
+        billId: mainBill.id
+      },
+      {
+        date: new Date("2025-03-04"),
+        amount: -1500,
+        description: "Вечер с друзьями в кафе",
+        category: "Кафе и рестораны",
+        billId: mainBill.id
+      },
+      {
+        date: new Date("2025-03-05"),
+        amount: 40000,
+        description: "Ежемесячная выплата за работу",
+        category: "Зарплата",
+        billId: mainBill.id
+      },
+      {
+        date: new Date("2025-03-06"),
+        amount: -2300,
+        description: "Билеты на концерт",
+        category: "Развлечения",
+        billId: mainBill.id
+      },
+      {
+        date: new Date("2025-03-07"),
+        amount: -1200,
+        description: "Новые кроссовки для тренировок",
+        category: "Одежда и обувь",
+        billId: mainBill.id
+      }
+    ]
   });
 
   console.log("Seed выполнен успешно");

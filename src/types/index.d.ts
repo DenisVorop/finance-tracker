@@ -21,6 +21,7 @@ declare namespace App {
   type Example = import("path/to/module").Example;
   type User = import("common/types/session.types").SessionDto["user"];
   type Bills = import("common/types/bill.types").BillsDto;
+  type Transactions = import("./client/entities/transactions/types").Transaction[];
 
   interface IncomingMessage<B extends Record<string, unknown> = unknown>
     extends BaseIncomingMessage {
@@ -28,6 +29,7 @@ declare namespace App {
     __EXAMPLE__: { hello: string };
     __USER__?: User;
     __BILLS__?: Bills;
+    __TRANSACTIONS__?: Transactions;
   }
 
   export interface ExtendedContext<
