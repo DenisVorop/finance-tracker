@@ -42,4 +42,26 @@ export class BillsController {
 
     return res.status(200).json(bill.toDTO());
   }
+
+  static async GetBill(req: NextApiRequest, res: NextApiResponse) {
+    if (!req.__USER__?.id) {
+      return res.status(401).json({ error: "Неавторизован" });
+    }
+
+    const bill = await BillsService.getBill(req);
+
+    if (bill._isEmpty) {
+      return res.status(404).json({ error: "Ничего не найдено" });
+    }
+
+    if (bill._isError) {
+      return res
+        .status(bill._meta?.code || 500)
+        .json({ error: bill._meta?.message });
+    }
+
+    const [dto] = bill.toDTO().data;
+
+    return res.status(200).json(dto);
+  }
 }

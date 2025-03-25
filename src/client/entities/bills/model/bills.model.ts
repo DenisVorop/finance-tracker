@@ -1,9 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { toast } from "sonner";
+import { useParams } from "next/navigation";
 
 import { billsApi } from "@/shared/api/bills";
-import type { BillsDto } from "common/types/bill.types";
+import type { Bill, BillsDto } from "common/types/bill.types";
 import type { BillFormData } from "common/schemas/bill.schema";
 
 const baseKey = "bills";
@@ -67,5 +68,25 @@ export function useCreateBill({
   return {
     createBill,
     isPending,
+  };
+}
+
+export const setBillFromCtx = (ctx: App.PageContext) => {
+  const bill = ctx.req.__BILL__;
+  return [[baseKey, bill?.id], bill] as const;
+};
+
+export function useBill() {
+  const id = Number(useParams().id);
+
+  const { data } = useQuery<Bill>({
+    queryKey: [baseKey, id],
+    queryFn: () => billsApi.getBill(id),
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
+
+  return {
+    data,
   };
 }
