@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader } from "@/shared/ui/card";
 import { Skeleton } from "@/shared/ui/skeleton";
 
 import { AddBillForm } from "../add-bill-form";
-import { withBillProviders } from "../../providers/with-gallery-providers";
+import { withBillProviders } from "../../providers/with-bill-providers";
 import { useBillForm } from "../../providers/bill-form.provider";
 
 function AddBillCardBase() {

@@ -102,11 +102,11 @@ body {
 
 @layer components {
   .title {
-    @apply text-5xl font-semibold text-gray-900 dark:text-white;
+    @apply text-3xl md:text-5xl font-semibold text-gray-900 dark:text-white;
   }
 
   .title-secondary {
-    @apply text-3xl font-medium text-gray-700 dark:text-gray-300;
+    @apply text-xl md:text-3xl font-medium text-gray-700 dark:text-gray-300;
   }
 
   .text {

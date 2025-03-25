@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { billsApi } from "@/shared/api/bills";
 import type { Bill, BillsDto } from "common/types/bill.types";
 import type { BillFormData } from "common/schemas/bill.schema";
+import { assertExist } from "@/shared/lib/assert-exist";
 
 const baseKey = "bills";
 
@@ -86,7 +87,9 @@ export function useBill() {
     gcTime: Infinity,
   });
 
+  assertExist(data, "Счет не найден");
+
   return {
-    data,
+    ...data,
   };
 }
