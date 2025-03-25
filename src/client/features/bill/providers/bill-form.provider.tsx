@@ -1,0 +1,46 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import type { ReactNode } from "react";
+import { createContext, useContext, useMemo } from "react";
+import type { UseFormReturn } from "react-hook-form";
+import { useForm } from "react-hook-form";
+
+import type { BillFormData } from "common/schemas/bill.schema";
+import { billSchema } from "common/schemas/bill.schema";
+import { useBill } from "@/entities/bills";
+
+const initialCtx = {
+  methods: {} as UseFormReturn<BillFormData>,
+};
+
+const BillFormContext = createContext(initialCtx);
+
+export function BillFormProvider({ children }: { children?: ReactNode }) {
+  const bill = useBill();
+  const { formState, ...methods } = useForm<BillFormData>({
+    resolver: yupResolver(billSchema),
+    defaultValues: bill,
+  });
+
+  const ctx = useMemo(
+    () => ({
+      methods: {
+        ...methods,
+        formState,
+      },
+    }),
+    [formState, methods]
+  );
+
+  return (
+    <BillFormContext.Provider value={ctx}>{children}</BillFormContext.Provider>
+  );
+}
+
+export function useBillForm() {
+  const context = useContext(BillFormContext);
+
+  if (!context) {
+    throw new Error("useBillForm must be used within a BillFormProvider");
+  }
+  return context;
+}
