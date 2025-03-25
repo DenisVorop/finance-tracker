@@ -1,31 +1,25 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import type { MutableRefObject, ReactNode } from "react";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import type { ReactNode } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
 import { BillType } from "common/types/bill.types";
-
-import type { FormValues } from "../lib/schema";
-import { formSchema } from "../lib/schema";
+import type { BillFormData } from "common/schemas/bill.schema";
+import { billSchema } from "common/schemas/bill.schema";
 
 const initialCtx = {
-  methods: {} as UseFormReturn<FormValues>,
+  methods: {} as UseFormReturn<BillFormData>,
+  openModal: false,
+  toggle: () => {},
 };
 
 const BillFormContext = createContext(initialCtx);
 
 export function BillFormProvider({ children }: { children?: ReactNode }) {
-  const { formState, ...methods } = useForm<FormValues>({
-    resolver: yupResolver(formSchema),
+  const [openModal, setOpenModal] = useState(false);
+  const { formState, ...methods } = useForm<BillFormData>({
+    resolver: yupResolver(billSchema),
     defaultValues: _prepareInitialData(),
   });
 
@@ -35,8 +29,11 @@ export function BillFormProvider({ children }: { children?: ReactNode }) {
         ...methods,
         formState,
       },
+
+      openModal,
+      toggle: () => setOpenModal((prev) => !prev),
     }),
-    [formState, methods]
+    [formState, methods, openModal]
   );
 
   return (

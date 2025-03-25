@@ -10,6 +10,7 @@ import { BillType as PrismaBillType } from "@prisma/client";
 export const BillType = PrismaBillType;
 export type BillType = PrismaBillType;
 
+export type DataBaseBill = PrismaBill;
 export type Bill = Omit<PrismaBill, "balance"> & { balance: number };
 
 export interface BillsDto {
