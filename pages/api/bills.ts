@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { BillsController } from "$/modules/bills/bills.controller";
+import { BillsController } from "$/modules/bills";
 import { authMiddleware } from "$/middlewares/auth.middleware";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
