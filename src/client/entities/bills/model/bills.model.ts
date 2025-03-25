@@ -13,6 +13,8 @@ export function useBills() {
   const query = useQuery<BillsDto>({
     queryKey: [baseKey],
     queryFn: billsApi.getBills,
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 
   const totalAmount =
