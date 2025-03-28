@@ -66,6 +66,29 @@ export class BillsService {
     }
   }
 
+  static async deleteBill(req: NextApiRequest) {
+    try {
+      const user = req.__USER__;
+      const id = Number(req.query.id);
+
+      const bill = await prisma.bill.findUnique({
+        where: { id, userId: user.id },
+      });
+
+      if (!bill) {
+        return BillsModel.Empty();
+      }
+
+      await prisma.bill.delete({ where: { id: bill.id } });
+
+      return BillsModel.fromDTO({
+        data: [this._prepareBalance(bill)],
+      });
+    } catch {
+      return BillsModel.Error({ code: 500, message: "Internal Server Error" });
+    }
+  }
+
   private static _prepareBalance(bill: DataBaseBill): Bill {
     return {
       ...bill,
