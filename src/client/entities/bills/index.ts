@@ -5,6 +5,7 @@ export {
   setBillFromCtx,
   useBill,
   useDeleteBill,
+  useUpdateBill,
 } from "./model/bills.model";
 
 export { BillCard } from "./ui/bill-card";
