@@ -93,3 +93,39 @@ export function useBill() {
     ...data,
   };
 }
+
+export function useDeleteBill({
+  onSuccess,
+  onError,
+}: { onSuccess?: () => void; onError?: () => void } = {}) {
+  const qClient = useQueryClient();
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: billsApi.deleteBill,
+    onSuccess: () => {
+      qClient.refetchQueries({ queryKey: [baseKey] });
+      toast.success("Счет успешно удален!");
+      onSuccess?.();
+    },
+    onError: () => {
+      toast.error("При удалении счета произошла ошибка!");
+      onError?.();
+    },
+  });
+
+  const deleteBill = useCallback(
+    async (id: number) => {
+      try {
+        mutateAsync(id);
+      } catch {
+        // .keep
+      }
+    },
+    [mutateAsync]
+  );
+
+  return {
+    deleteBill,
+    isPending,
+  };
+}

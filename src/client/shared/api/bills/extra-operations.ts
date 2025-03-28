@@ -35,3 +35,13 @@ export function getBill(id: number, options?: AxiosRequestConfig) {
     options
   );
 }
+
+export function deleteBill(id: number, options?: AxiosRequestConfig) {
+  return billsApiInstance<BillsDto>(
+    {
+      url: `/bills/${id}`,
+      method: "DELETE",
+    },
+    options
+  );
+}
