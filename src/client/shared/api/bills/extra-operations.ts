@@ -37,10 +37,25 @@ export function getBill(id: number, options?: AxiosRequestConfig) {
 }
 
 export function deleteBill(id: number, options?: AxiosRequestConfig) {
-  return billsApiInstance<BillsDto>(
+  return billsApiInstance<Bill>(
     {
       url: `/bills/${id}`,
       method: "DELETE",
+    },
+    options
+  );
+}
+
+export function updateBill(
+  id: number,
+  data: BillFormData,
+  options?: AxiosRequestConfig
+) {
+  return billsApiInstance<Bill>(
+    {
+      url: `/bills/${id}`,
+      method: "PUT",
+      data,
     },
     options
   );

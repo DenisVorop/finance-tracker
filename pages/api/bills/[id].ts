@@ -9,6 +9,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return BillsController.GetBill(req, res);
     case "DELETE":
       return BillsController.DeleteBill(req, res);
+    case "PUT":
+      return BillsController.UpdateBill(req, res);
     default:
       return res.status(405).json({ error: "Метод не разрешён" });
   }

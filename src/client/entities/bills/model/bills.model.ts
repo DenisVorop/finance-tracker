@@ -77,8 +77,9 @@ export const setBillFromCtx = (ctx: App.PageContext) => {
   return [[baseKey, bill?.id], bill] as const;
 };
 
-export function useBill() {
-  const id = Number(useParams().id);
+export function useBill(billId?: number) {
+  const params = useParams();
+  const id = billId || Number(params.id);
 
   const { data } = useQuery<Bill>({
     queryKey: [baseKey, id],
@@ -126,6 +127,39 @@ export function useDeleteBill({
 
   return {
     deleteBill,
+    isPending,
+  };
+}
+
+export function useUpdateBill() {
+  const qClient = useQueryClient();
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: ({ id, data }: { id: number; data: BillFormData }) =>
+      billsApi.updateBill(id, data),
+    onSuccess: ({ id }) => {
+      qClient.refetchQueries({ queryKey: [baseKey, id] });
+      toast.success("Счет успешно обновлен!");
+    },
+    onError: () => {
+      toast.error("При обновлении счета произошла ошибка!");
+    },
+  });
+
+  const updateBill = useCallback(
+    async (id: number, data: BillFormData) => {
+      try {
+        const updatedBill = await mutateAsync({ id, data });
+        return updatedBill;
+      } catch {
+        // .keep
+      }
+    },
+    [mutateAsync]
+  );
+
+  return {
+    updateBill,
     isPending,
   };
 }
