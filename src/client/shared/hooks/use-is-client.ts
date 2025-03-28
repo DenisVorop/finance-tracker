@@ -1,10 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useCallback, useEffect, useState } from "react";
 
 export function useIsClient(): {
   isClient: boolean;
 
   /** Обёртка для выполнения функции только на клиенте */
-  withClient: <T extends (...args: any[]) => any>(fn: T) => (...args: Parameters<T>) => ReturnType<T> | undefined;
+  withClient: <T extends (...args: any[]) => any>(
+    fn: T
+  ) => (...args: Parameters<T>) => ReturnType<T> | undefined;
 } {
   const [isClient, setIsClient] = useState(false);
 
@@ -20,7 +23,7 @@ export function useIsClient(): {
         }
         return undefined;
       },
-    [isClient],
+    [isClient]
   );
 
   return { isClient, withClient };
