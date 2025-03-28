@@ -1,5 +1,9 @@
-import { BillActions, BillHeader, BillInfo } from "@/features/bill";
-import { withBillProviders } from "@/features/bill/providers/with-bill-providers";
+import {
+  BillActions,
+  BillHeader,
+  BillInfo,
+  withBillProviders,
+} from "@/features/bill";
 import { Separator } from "@/shared/ui/separator";
 
 function Page() {
