@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Button } from "@/shared/ui/button";

@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import type { ReactNode } from "react";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useEffect, useMemo } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
@@ -20,6 +20,12 @@ export function BillFormProvider({ children }: { children?: ReactNode }) {
     resolver: yupResolver(billSchema),
     defaultValues: bill,
   });
+
+  useEffect(() => {
+    methods.reset(bill);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bill]);
 
   const ctx = useMemo(
     () => ({

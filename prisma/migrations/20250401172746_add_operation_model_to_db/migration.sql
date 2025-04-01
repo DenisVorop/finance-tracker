@@ -1,7 +1,11 @@
+-- CreateEnum
+CREATE TYPE "OperationType" AS ENUM ('WITHDRAWAL', 'DEPOSIT');
+
 -- CreateTable
 CREATE TABLE "Operation" (
     "id" SERIAL NOT NULL,
     "amount" DECIMAL(65,30) NOT NULL,
+    "type" "OperationType" NOT NULL,
     "category" TEXT NOT NULL,
     "date" TIMESTAMP NOT NULL DEFAULT timezone('utc'::text, now()),
     "note" TEXT,

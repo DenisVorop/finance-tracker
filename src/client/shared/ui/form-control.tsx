@@ -6,6 +6,8 @@ import {
 
 import { BillType } from "common/types/bill.types";
 import { billTypesMap } from "@/entities/bills";
+import { OperationType } from "common/types/operations.types";
+import { operationTypesMap } from "@/entities/operations";
 
 import { exhaustiveCheck } from "../lib/exhaustive-check";
 
@@ -22,6 +24,8 @@ import {
 } from "./select";
 import { Textarea } from "./textarea";
 import { Label } from "./label";
+import { BillsAutocomplete } from "./bills-autocomplete";
+import { DatePicker } from "./date-picker";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type FieldValues = Record<string, any>;
@@ -38,7 +42,10 @@ export type ControlType =
   | "switch"
   | "checkbox"
   | "textarea"
-  | "billType";
+  | "bill-type"
+  | "bills"
+  | "date-picker"
+  | "operation-type";
 
 type CheckboxProps = ComponentProps<typeof Checkbox> & {
   label: ReactNode;
@@ -54,6 +61,7 @@ type SelectProps = Omit<
 };
 type SwitchProps = ComponentProps<typeof Switch> & { label: string };
 type TextareaProps = ComponentProps<typeof Textarea>;
+type DatePickerProps = ComponentProps<typeof DatePicker>;
 
 export type FormInputProps =
   | (InputProps & { controlType: "text" })
@@ -61,7 +69,10 @@ export type FormInputProps =
   | (CheckboxProps & { controlType: "checkbox" })
   | (SwitchProps & { controlType: "switch" })
   | (TextareaProps & { controlType: "textarea" })
-  | (SelectProps & { controlType: "billType" });
+  | (SelectProps & { controlType: "bill-type" })
+  | (SelectProps & { controlType: "bills" })
+  | (SelectProps & { controlType: "operation-type" })
+  | (DatePickerProps & { controlType: "date-picker" });
 
 type FormControlProps<F extends FieldValues> = ControllerProps<F> & {
   errorMessage?: string;
@@ -167,7 +178,30 @@ export function FormControl<T extends ControlType, F extends FieldValues>(
                 </div>
               );
             }
-            case "billType": {
+            case "operation-type": {
+              const { onChange, onBlur, ..._restProps } =
+                restProps as SelectProps;
+              return (
+                <Select
+                  onValueChange={_combineHandlers(fieldOnChange, onChange)}
+                  onOpenChange={_combineHandlers(fieldOnBlur, onBlur)}
+                  {...restField}
+                  {..._restProps}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Выберите тип операции" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.values(OperationType).map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {operationTypesMap[type]}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              );
+            }
+            case "bill-type": {
               const { onChange, onBlur, ..._restProps } =
                 restProps as SelectProps;
               return (
@@ -188,6 +222,30 @@ export function FormControl<T extends ControlType, F extends FieldValues>(
                     ))}
                   </SelectContent>
                 </Select>
+              );
+            }
+            case "bills": {
+              const { onChange, onBlur, ..._restProps } =
+                restProps as SelectProps;
+              return (
+                <BillsAutocomplete
+                  onValueChange={_combineHandlers(fieldOnChange, onChange)}
+                  onOpenChange={_combineHandlers(fieldOnBlur, onBlur)}
+                  {...restField}
+                  {..._restProps}
+                />
+              );
+            }
+            case "date-picker": {
+              const { onChange, onBlur, ..._restProps } =
+                restProps as DatePickerProps;
+              return (
+                <DatePicker
+                  onChange={_combineHandlers(fieldOnChange, onChange)}
+                  onBlur={_combineHandlers(fieldOnBlur, onBlur)}
+                  {...restField}
+                  {..._restProps}
+                />
               );
             }
             default: {

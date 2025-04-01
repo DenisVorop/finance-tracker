@@ -32,7 +32,9 @@ export function useBills() {
       return acc;
     }, 0) || 0;
 
-  return { ...query, totalAmount };
+  const flatItems = query.data?.data || [];
+
+  return { ...query, flatItems, totalAmount };
 }
 
 export function useCreateBill({
@@ -87,6 +89,8 @@ export function useBill(billId?: number) {
     staleTime: Infinity,
     gcTime: Infinity,
   });
+
+  // const
 
   assertExist(data, "Счет не найден");
 
@@ -161,5 +165,13 @@ export function useUpdateBill() {
   return {
     updateBill,
     isPending,
+  };
+}
+
+export function useSetBill() {
+  const qClient = useQueryClient();
+
+  return (bill: Bill) => {
+    qClient.setQueryData([baseKey, bill.id], bill);
   };
 }
