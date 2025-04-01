@@ -1,8 +1,8 @@
-import type { BillType } from "common/types/bill.types";
+import { BillType } from "common/types/bill.types";
 
 export const billTypesMap: Record<BillType, string> = {
-  DEBT_LEND: "Долговой; мне должны",
-  DEBT_OWE: "Долговой; я должен",
-  REGULAR: "Обычный",
-  SAVINGS: "Накопительный",
+  [BillType.DEBT_LEND]: "Долговой; мне должны",
+  [BillType.DEBT_OWE]: "Долговой; я должен",
+  [BillType.REGULAR]: "Обычный",
+  [BillType.SAVINGS]: "Накопительный",
 };

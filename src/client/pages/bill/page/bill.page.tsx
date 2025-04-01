@@ -2,6 +2,7 @@ import {
   BillActions,
   BillHeader,
   BillInfo,
+  BillOperations,
   withBillProviders,
 } from "@/features/bill";
 import { Separator } from "@/shared/ui/separator";
@@ -21,6 +22,8 @@ function Page() {
         <BillActions />
 
         <Separator />
+
+        <BillOperations />
       </div>
     </div>
   );

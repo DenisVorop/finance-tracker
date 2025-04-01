@@ -21,7 +21,7 @@ export function BillInfo() {
         <FormControl
           controlLabel="Тип счёта"
           name="type"
-          controlType="billType"
+          controlType="bill-type"
           control={control}
         />
 
