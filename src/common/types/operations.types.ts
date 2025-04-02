@@ -14,4 +14,10 @@ export type Operation = Omit<PrismaOperation, "amount"> & {
 
 export interface OperationsDto {
   data: Operation[];
+  params: {
+    page: number;
+    pageSize: number;
+  };
+  total: number;
+  totalPages: number;
 }

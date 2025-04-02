@@ -7,7 +7,15 @@ export class OperationsModel {
   _isEmpty: boolean;
   _meta: { code: number; message: string } | undefined;
 
-  static _emptyData: OperationsDto = { data: [] };
+  static _emptyData: OperationsDto = {
+    data: [],
+    params: {
+      page: 1,
+      pageSize: 10,
+    },
+    total: 0,
+    totalPages: 0,
+  };
 
   private constructor(
     data: OperationsDto,

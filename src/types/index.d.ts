@@ -22,6 +22,7 @@ declare namespace App {
   type User = import("common/types/session.types").SessionDto["user"];
   type Bills = import("common/types/bill.types").BillsDto;
   type Bill = import("common/types/bill.types").Bill;
+  type Operations = import("common/types/operations.types").OperationsDto;
 
   interface IncomingMessage<B extends Record<string, unknown> = unknown>
     extends BaseIncomingMessage {
@@ -30,6 +31,7 @@ declare namespace App {
     __USER__?: User;
     __BILLS__?: Bills;
     __BILL__?: Bill;
+    __OPERATIONS__?: Operations;
   }
 
   export interface ExtendedContext<

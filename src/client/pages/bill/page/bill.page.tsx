@@ -9,23 +9,21 @@ import { Separator } from "@/shared/ui/separator";
 
 function Page() {
   return (
-    <div className="container my-4 lg:my-8">
-      <div className="flex flex-col gap-4 lg:gap-6">
-        <BillHeader />
+    <>
+      <BillHeader />
 
-        <Separator />
+      <Separator />
 
-        <BillInfo />
+      <BillInfo />
 
-        <Separator />
+      <Separator />
 
-        <BillActions />
+      <BillActions />
 
-        <Separator />
+      <Separator />
 
-        <BillOperations />
-      </div>
-    </div>
+      <BillOperations />
+    </>
   );
 }
 
