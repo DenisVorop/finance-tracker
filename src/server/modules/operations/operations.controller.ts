@@ -40,8 +40,6 @@ export class OperationsController {
         .json({ error: bill._meta?.message });
     }
 
-    const [dto] = bill.toDTO().data;
-
-    return res.status(200).json(dto);
+    return res.status(200).json(bill.toDTO());
   }
 }

@@ -1,15 +1,22 @@
 import type { AxiosRequestConfig } from "axios";
 
 import type { Operation, OperationsDto } from "common/types/operations.types";
-import type { OperationFormData } from "common/schemas/operation.schema";
+import type {
+  GetOperationsQuery,
+  OperationFormData,
+} from "common/schemas/operation.schema";
 
 import { operationsApiInstance } from "./api-instance";
 
-export function getOperations(options?: AxiosRequestConfig) {
+export function getOperations(
+  params: GetOperationsQuery,
+  options?: AxiosRequestConfig
+) {
   return operationsApiInstance<OperationsDto>(
     {
       url: `/operations`,
       method: "GET",
+      params,
     },
     options
   );

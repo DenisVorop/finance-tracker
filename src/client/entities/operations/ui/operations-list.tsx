@@ -7,13 +7,15 @@ import {
   TableRow,
 } from "@/shared/ui/table";
 import { Skeleton } from "@/shared/ui/skeleton";
+import { Button } from "@/shared/ui/button";
 
 import { useOperations } from "../model/operations.model";
 
 import { OperationRow } from "./operation-row";
 
-export function OperationsList() {
-  const { flatItems, isLoading, _isEmpty } = useOperations();
+export function OperationsList({ billId }: { billId?: number }) {
+  const { flatItems, isLoading, _isEmpty, hasNextPage, take, fetchNextPage } =
+    useOperations({ billId });
 
   return (
     <Table>
@@ -43,6 +45,19 @@ export function OperationsList() {
           : flatItems.map((operation) => {
               return <OperationRow key={operation.id} {...operation} />;
             })}
+        {hasNextPage && (
+          <TableRow>
+            <TableCell colSpan={5}>
+              <Button
+                className="w-full"
+                isLoading={isLoading}
+                onClick={() => fetchNextPage()}
+              >
+                Загрузить ещё {take}
+              </Button>
+            </TableCell>
+          </TableRow>
+        )}
       </TableBody>
     </Table>
   );
