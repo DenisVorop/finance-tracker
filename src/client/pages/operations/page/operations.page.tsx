@@ -1,11 +1,12 @@
-import { BillsHeader, BillsList } from "@/features/bills";
+import { OperationsList } from "@/entities/operations";
+import { PageHeader } from "@/shared/ui/page-header";
 
 export function OperationsPage() {
   return (
     <>
-      <BillsHeader />
+      <PageHeader title="Все операции" />
 
-      <BillsList />
+      <OperationsList />
     </>
   );
 }
