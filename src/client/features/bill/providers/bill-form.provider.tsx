@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import type { BillFormData } from "common/schemas/bill.schema";
 import { billSchema } from "common/schemas/bill.schema";
 import { useBill } from "@/entities/bills";
+import { useStableCallback } from "@/shared/hooks/use-stable-callback";
 
 const initialCtx = {
   methods: {} as UseFormReturn<BillFormData>,
@@ -21,11 +22,13 @@ export function BillFormProvider({ children }: { children?: ReactNode }) {
     defaultValues: bill,
   });
 
-  useEffect(() => {
-    methods.reset(bill);
+  const updateBill = useStableCallback((data: BillFormData) => {
+    methods.setValue("balance", data.balance);
+  });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bill]);
+  useEffect(() => {
+    updateBill(bill);
+  }, [bill, updateBill]);
 
   const ctx = useMemo(
     () => ({
