@@ -79,9 +79,9 @@ export const setBillFromCtx = (ctx: App.PageContext) => {
   return [[baseKey, bill?.id], bill] as const;
 };
 
-export function useBill(billId?: number) {
+export function useBill() {
   const params = useParams();
-  const id = billId || Number(params.id);
+  const id = Number(params.id);
 
   const { data } = useQuery<Bill>({
     queryKey: [baseKey, id],
@@ -89,8 +89,6 @@ export function useBill(billId?: number) {
     staleTime: Infinity,
     gcTime: Infinity,
   });
-
-  // const
 
   assertExist(data, "Счет не найден");
 
