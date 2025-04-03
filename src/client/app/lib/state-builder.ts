@@ -3,6 +3,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { setUserFromCtx } from "@/entities/auth";
 import { setBillFromCtx, setBillsFromCtx } from "@/entities/bills";
 import { setOperationsFromCtx } from "@/entities/operations";
+import { setCategoriesFromCtx } from "@/entities/categories";
 
 export class StateBuilder {
   readonly _ctx: App.PageContext;
@@ -34,6 +35,11 @@ export class StateBuilder {
 
   setOperations() {
     this._state.setQueryData(...setOperationsFromCtx(this._ctx));
+    return this;
+  }
+
+  setCategories() {
+    this._state.setQueryData(...setCategoriesFromCtx(this._ctx));
     return this;
   }
 

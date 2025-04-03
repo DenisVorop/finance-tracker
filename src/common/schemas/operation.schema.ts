@@ -14,7 +14,7 @@ export const operationSchema = object().shape({
     .trim()
     .min(2, "Минимум 2 символа")
     .max(50, "Максимум 50 символов")
-    .required("Категория обязательна"),
+    .optional(),
   date: date().required("Дата обязательна"),
   note: string()
     .max(255, "Максимальная длина заметки — 255 символов")

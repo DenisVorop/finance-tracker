@@ -57,6 +57,7 @@ model User {
   updatedAt  DateTime    @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
   Bill       Bill[]
   operations Operation[]
+  Category   Category[]
 }
 
 model Session {
@@ -69,17 +70,29 @@ model Session {
   createdAt    DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
 }
 
+model Category {
+  id          Int         @id @default(autoincrement())
+  name        String      @unique
+  description String?
+  operations  Operation[]
+  user        User        @relation(fields: [userId], references: [id])
+  userId      Int
+  createdAt   DateTime    @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt   DateTime    @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+}
+
 model Operation {
-  id        Int           @id @default(autoincrement())
-  amount    Decimal
-  type      OperationType
-  category  String
-  date      DateTime      @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
-  note      String?
-  bill      Bill          @relation(fields: [billId], references: [id], onDelete: Cascade)
-  billId    Int
-  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  createdAt DateTime      @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
-  updatedAt DateTime      @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+  id         Int           @id @default(autoincrement())
+  amount     Decimal
+  type       OperationType
+  category   Category?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  categoryId Int?
+  date       DateTime      @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  note       String?
+  bill       Bill          @relation(fields: [billId], references: [id], onDelete: Cascade)
+  billId     Int
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  createdAt  DateTime      @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt  DateTime      @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 }
