@@ -1,19 +1,8 @@
-import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Button } from "@/shared/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/ui/select";
-import { Switch } from "@/shared/ui/switch";
-import { Textarea } from "@/shared/ui/textarea";
 import { useResponsiveModal } from "@/shared/hooks/use-responsive-modal";
-import { BillType } from "common/types/bill.types";
-import { billTypesMap, useCreateBill } from "@/entities/bills";
-import type { BillFormData } from "common/schemas/bill.schema";
+import { useCreateBill } from "@/entities/bills";
+import { FormControl } from "@/shared/ui/form-control";
 
 import { useBillForm } from "../../providers/bill-form.provider";
 
@@ -41,46 +30,20 @@ export function AddBillForm() {
       >
         <div className="grid lg:grid-cols-2 gap-4">
           {/* Название счёта */}
-          <div>
-            <Label htmlFor="name">Название счёта</Label>
-            <Input
-              id="name"
-              {...methods.register("name")}
-              placeholder="Основной счёт"
-            />
-            {methods.formState.errors.name && (
-              <p className="text-red-500 text-sm">
-                {methods.formState.errors.name.message}
-              </p>
-            )}
-          </div>
+          <FormControl
+            controlLabel="Название счета"
+            name="name"
+            controlType="text"
+            control={methods.control}
+          />
 
           {/* Тип счёта */}
-          <div>
-            <Label>Тип счёта</Label>
-            <Select
-              onValueChange={(value) =>
-                methods.setValue("type", value as BillFormData["type"])
-              }
-              defaultValue={methods.getValues("type")}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Выберите тип счёта" />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.values(BillType).map((type) => (
-                  <SelectItem key={type} value={type}>
-                    {billTypesMap[type]}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {methods.formState.errors.type && (
-              <p className="text-red-500 text-sm">
-                {methods.formState.errors.type.message}
-              </p>
-            )}
-          </div>
+          <FormControl
+            controlLabel="Тип счета"
+            name="type"
+            controlType="bill-type"
+            control={methods.control}
+          />
 
           {/* Цвет фона */}
           <div>
@@ -135,39 +98,31 @@ export function AddBillForm() {
         </div>
 
         {/* Описание счёта */}
-        <div>
-          <Label>Описание счёта</Label>
-          <Textarea
-            {...methods.register("description")}
-            placeholder="Основной счёт для повседневных операций"
-          />
-        </div>
+        <FormControl
+          controlLabel="Описание счёта"
+          name="description"
+          controlType="textarea"
+          control={methods.control}
+          placeholder="Основной счёт для повседневных операций"
+        />
 
         {/* Баланс */}
-        <div>
-          <Label>Баланс</Label>
-          <Input
-            type="number"
-            {...methods.register("balance")}
-            placeholder="10500"
-          />
-          {methods.formState.errors.balance && (
-            <p className="text-red-500 text-sm">
-              {methods.formState.errors.balance.message}
-            </p>
-          )}
-        </div>
+        <FormControl
+          controlLabel="Баланс"
+          name="balance"
+          controlType="text"
+          type="number"
+          control={methods.control}
+          placeholder="10500"
+        />
 
         {/* Учитывать в общем балансе */}
-        <div className="flex items-center justify-between">
-          <Label>Учитывать счёт в общем балансе</Label>
-          <Switch
-            checked={methods.watch("includeInTotal")}
-            onCheckedChange={(checked) =>
-              methods.setValue("includeInTotal", checked)
-            }
-          />
-        </div>
+        <FormControl
+          label="Учитывать счёт в общем балансе"
+          name="includeInTotal"
+          controlType="switch"
+          control={methods.control}
+        />
 
         {/* Кнопки */}
         <div className="flex justify-end gap-2">

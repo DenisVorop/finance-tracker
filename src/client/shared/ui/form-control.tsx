@@ -61,7 +61,10 @@ type SelectProps = Omit<
   onChange?: ComponentProps<typeof Select>["onValueChange"];
   onBlur?: ComponentProps<typeof Select>["onOpenChange"];
 };
-type SwitchProps = ComponentProps<typeof Switch> & { label: string };
+type SwitchProps = Omit<ComponentProps<typeof Switch>, "onChange"> & {
+  label: string;
+  onChange?: ComponentProps<typeof Switch>["onCheckedChange"];
+};
 type TextareaProps = ComponentProps<typeof Textarea>;
 type DatePickerProps = ComponentProps<typeof DatePicker>;
 
@@ -166,15 +169,14 @@ export function FormControl<T extends ControlType, F extends FieldValues>(
             }
             case "switch": {
               const { value, ..._restField } = restField;
-              const { onChange, onBlur, label, ..._restProps } =
+              const { onChange, label, ..._restProps } =
                 restProps as SwitchProps;
               return (
                 <div className="flex items-center justify-between">
                   <Label>{label}</Label>
                   <Switch
                     checked={Boolean(value)}
-                    onChange={_combineHandlers(fieldOnChange, onChange)}
-                    onBlur={_combineHandlers(fieldOnBlur, onBlur)}
+                    onCheckedChange={_combineHandlers(fieldOnChange, onChange)}
                     {..._restField}
                     {..._restProps}
                   />
