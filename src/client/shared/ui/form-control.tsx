@@ -26,6 +26,7 @@ import { Textarea } from "./textarea";
 import { Label } from "./label";
 import { BillsAutocomplete } from "./bills-autocomplete";
 import { DatePicker } from "./date-picker";
+import { CategoriesAutocomplete } from "./categories-autocomplete";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type FieldValues = Record<string, any>;
@@ -45,7 +46,8 @@ export type ControlType =
   | "bill-type"
   | "bills"
   | "date-picker"
-  | "operation-type";
+  | "operation-type"
+  | "categories";
 
 type CheckboxProps = ComponentProps<typeof Checkbox> & {
   label: ReactNode;
@@ -72,6 +74,7 @@ export type FormInputProps =
   | (SelectProps & { controlType: "bill-type" })
   | (SelectProps & { controlType: "bills" })
   | (SelectProps & { controlType: "operation-type" })
+  | (SelectProps & { controlType: "categories" })
   | (DatePickerProps & { controlType: "date-picker" });
 
 type FormControlProps<F extends FieldValues> = ControllerProps<F> & {
@@ -243,6 +246,18 @@ export function FormControl<T extends ControlType, F extends FieldValues>(
                 <DatePicker
                   onChange={_combineHandlers(fieldOnChange, onChange)}
                   onBlur={_combineHandlers(fieldOnBlur, onBlur)}
+                  {...restField}
+                  {..._restProps}
+                />
+              );
+            }
+            case "categories": {
+              const { onChange, onBlur, ..._restProps } =
+                restProps as SelectProps;
+              return (
+                <CategoriesAutocomplete
+                  onValueChange={_combineHandlers(fieldOnChange, onChange)}
+                  onOpenChange={_combineHandlers(fieldOnBlur, onBlur)}
                   {...restField}
                   {..._restProps}
                 />
