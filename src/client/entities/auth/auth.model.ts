@@ -1,4 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
 
 import { authApi } from "@/shared/api/auth";
 import { navigate } from "@/shared/lib/navigate";
@@ -32,8 +34,18 @@ export function useSignup({
 }: { onSuccess?: () => void; onError?: () => void } = {}) {
   const data = useMutation({
     mutationFn: authApi.signup,
-    onSuccess,
-    onError,
+    onSuccess() {
+      toast.success("Вы успешно зарегистрированы!");
+
+      onSuccess?.();
+    },
+    onError(err) {
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.error);
+      }
+
+      onError?.();
+    },
   });
 
   return data;
@@ -45,8 +57,18 @@ export function useSignin({
 }: { onSuccess?: () => void; onError?: () => void } = {}) {
   const data = useMutation({
     mutationFn: authApi.signin,
-    onSuccess,
-    onError,
+    onSuccess() {
+      toast.success("Вы успешно авторизованы!");
+
+      onSuccess?.();
+    },
+    onError(err) {
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.error);
+      }
+
+      onError?.();
+    },
   });
 
   return data;

@@ -34,7 +34,9 @@ export class AuthController {
     const signup = await AuthService.signUp(req);
 
     if (signup._isEmpty) {
-      return res.status(400).json({ error: "Неверные данные" });
+      return res
+        .status(400)
+        .json({ error: "Пользователь с таким email уже существует" });
     }
 
     if (signup._isError) {
@@ -48,7 +50,7 @@ export class AuthController {
     const signin = await AuthService.signIn(req);
 
     if (signin._isEmpty) {
-      return res.status(400).json({ error: "Неверные данные" });
+      return res.status(400).json({ error: "Неверный email или пароль" });
     }
 
     if (signin._isError) {
