@@ -22,7 +22,7 @@ declare namespace App {
   type User = import("common/types/session.types").SessionDto["user"];
   type Bills = import("common/types/bill.types").BillsDto;
   type Bill = import("common/types/bill.types").Bill;
-  type Operations = import("common/types/operations.types").OperationsDto;
+  type Operations = import("common/types/operations.types").OperationsModelDto;
   type Categories = import("common/types/category.types").CategoriesDto;
 
   interface IncomingMessage<B extends Record<string, unknown> = unknown>

@@ -6,7 +6,10 @@ import {
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
-import type { Operation, OperationsDto } from "common/types/operations.types";
+import type {
+  Operation,
+  OperationsModelDto,
+} from "common/types/operations.types";
 import { operationsApi } from "@/shared/api/operations";
 import type {
   GetOperationsQuery,
@@ -34,7 +37,7 @@ export function useOperations({
   });
 
   const { data, isLoading, hasNextPage, fetchNextPage } =
-    useInfiniteQuery<OperationsDto>({
+    useInfiniteQuery<OperationsModelDto>({
       queryKey: [baseKey, { ...params, billId }],
       queryFn: ({ pageParam = {}, signal }) => {
         const queryParams = {
