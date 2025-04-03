@@ -31,7 +31,7 @@ export class OperationsService {
         }),
         prisma.operation.findMany({
           where: { userId: user.id, billId },
-          include: { bill: true },
+          include: { bill: true, category: true },
           orderBy: { date: "desc" },
           take: pageSize,
           skip: (page - 1) * pageSize,
@@ -87,7 +87,11 @@ export class OperationsService {
           },
         });
 
-        return { ...newOperation, bill: updatedBill };
+        const category = await tx.category.findUnique({
+          where: { id: data.categoryId, userId: user.id },
+        });
+
+        return { ...newOperation, bill: updatedBill, category };
       });
 
       return OperationModel.fromDTO(this._prepareAmount(operation));

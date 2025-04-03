@@ -10,11 +10,7 @@ export const operationSchema = object().shape({
       return isNaN(parsed) ? undefined : parsed;
     })
     .required("Сумма обязательна"),
-  category: string()
-    .trim()
-    .min(2, "Минимум 2 символа")
-    .max(50, "Максимум 50 символов")
-    .optional(),
+  categoryId: number().optional(),
   date: date().required("Дата обязательна"),
   note: string()
     .max(255, "Максимальная длина заметки — 255 символов")

@@ -20,7 +20,7 @@ export function OperationRow({
         {new Date(date).toLocaleDateString()}
       </TableCell>
       <TableCell>{bill?.name || " - "}</TableCell>
-      <TableCell>{category}</TableCell>
+      <TableCell>{category?.name}</TableCell>
       <TableCell>{note}</TableCell>
       <TableCell
         className={cn("text-right", {

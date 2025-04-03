@@ -51,6 +51,14 @@ export function AddOperationForm() {
 
           {/* Категория */}
           <FormControl
+            controlLabel="Категория"
+            name="categoryId"
+            control={methods.control}
+            controlType="categories"
+          />
+
+          {/* Тип операции */}
+          <FormControl
             controlLabel="Тип операции"
             name="type"
             control={methods.control}
@@ -87,13 +95,6 @@ export function AddOperationForm() {
             />
           </div>
         </div>
-
-        {/* TODO: Добавить категории! */}
-        <input
-          type="hidden"
-          value={"category"}
-          {...methods.register("category")}
-        />
 
         {/* Кнопки */}
         <div className="flex justify-end gap-2">
