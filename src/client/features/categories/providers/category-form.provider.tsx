@@ -4,12 +4,11 @@ import { createContext, useContext, useMemo, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
-import { BillType } from "common/types/bill.types";
-import type { BillFormData } from "common/schemas/bill.schema";
-import { billSchema } from "common/schemas/bill.schema";
+import type { CategoryFormData } from "common/schemas/category.schema";
+import { categorySchema } from "common/schemas/category.schema";
 
 const initialCtx = {
-  methods: {} as UseFormReturn<BillFormData>,
+  methods: {} as UseFormReturn<CategoryFormData>,
   openModal: false,
   toggle: () => {},
 };
@@ -18,8 +17,8 @@ const CategoryFormContext = createContext(initialCtx);
 
 export function CategoryFormProvider({ children }: { children?: ReactNode }) {
   const [openModal, setOpenModal] = useState(false);
-  const { formState, ...methods } = useForm<BillFormData>({
-    resolver: yupResolver(billSchema),
+  const { formState, ...methods } = useForm<CategoryFormData>({
+    resolver: yupResolver(categorySchema),
     defaultValues: _prepareInitialData(),
   });
 
@@ -52,14 +51,9 @@ export function useCategoryForm() {
   return context;
 }
 
-function _prepareInitialData() {
+function _prepareInitialData(): CategoryFormData {
   return {
     name: "",
-    type: BillType.REGULAR,
-    backgroundColor: "#1d65c4",
-    emoji: "💰",
     description: "",
-    balance: 0,
-    includeInTotal: true,
   };
 }

@@ -1,4 +1,4 @@
-import { useCategories } from "@/entities/categories";
+import { CategoryCard, useCategories } from "@/entities/categories";
 
 import { AddCategoryCard } from "../add-category-card";
 
@@ -14,7 +14,7 @@ export function CategoriesList() {
       ) : (
         <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
           {flatItems.map((category) => {
-            return <div key={category.id}>{category.name}</div>;
+            return <CategoryCard key={category.id} {...category} />;
           })}
 
           <AddCategoryCard />
