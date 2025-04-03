@@ -33,7 +33,7 @@ export function useOperations({
     pageSize: 10,
   });
 
-  const { data, isLoading, error, hasNextPage, fetchNextPage } =
+  const { data, isLoading, hasNextPage, fetchNextPage } =
     useInfiniteQuery<OperationsDto>({
       queryKey: [baseKey, { ...params, billId }],
       queryFn: ({ pageParam = {}, signal }) => {
@@ -83,12 +83,14 @@ export function useOperations({
   const remaining = total - flatItems.length;
   const take = Math.min(limit, remaining);
 
-  const _isEmpty = error && "status" in error ? error.status === 404 : false;
+  const isSsrEmpty = data?.pages[0]?._isEmpty;
+  const isSsrError = data?.pages[0]?._isError;
 
   return {
     flatItems,
     isLoading,
-    _isEmpty,
+    isSsrEmpty,
+    isSsrError,
     total,
     limit,
     remaining,
