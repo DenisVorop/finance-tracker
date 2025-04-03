@@ -6,15 +6,15 @@ export class CategoriesModel {
   _isError: boolean;
   _isEmpty: boolean;
   _meta: { code: number; message: string } | undefined;
-  _categories: CategoriesDto["data"];
+  categories: CategoriesDto["categories"];
 
   private constructor(
-    data: CategoriesDto["data"],
+    data: CategoriesDto["categories"],
     isError?: boolean,
     isEmpty?: boolean,
     error?: { code: number; message: string }
   ) {
-    this._categories = data || [];
+    this.categories = data || [];
     this._isError = isError || false;
     this._isEmpty = isEmpty || false;
     this._meta = error;
@@ -28,7 +28,7 @@ export class CategoriesModel {
     return new CategoriesModel([], false, true);
   }
 
-  static fromDTO(dto: CategoriesDto["data"]): CategoriesModel {
+  static fromDTO(dto: CategoriesDto["categories"]): CategoriesModel {
     return _isEmpty(dto) ? CategoriesModel.Empty() : new CategoriesModel(dto);
   }
 

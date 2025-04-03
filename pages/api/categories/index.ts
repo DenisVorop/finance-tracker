@@ -7,6 +7,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET":
       return CategoriesController.GetCategories(req, res);
+    case "POST":
+      return CategoriesController.CreateCategory(req, res);
     default:
       return res.status(405).json({ error: "Метод не разрешён" });
   }

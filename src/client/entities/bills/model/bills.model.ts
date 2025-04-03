@@ -60,7 +60,7 @@ export function useCreateBill({
   const createBill = useCallback(
     async (data: BillFormData) => {
       try {
-        mutateAsync(data);
+        await mutateAsync(data);
       } catch {
         // .keep
       }

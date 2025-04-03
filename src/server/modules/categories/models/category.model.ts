@@ -1,16 +1,16 @@
 import _isEmpty from "lodash/isEmpty";
 
-import type { Operation } from "common/types/operations.types";
+import type { Category } from "common/types/category.types";
 
-export class OperationModel {
+export class CategoryModel {
   _isError: boolean;
   _isEmpty: boolean;
   _meta: { code: number; message: string } | undefined;
 
-  static _emptyData: Operation | null = null;
+  static _emptyData: Category | null = null;
 
   private constructor(
-    data: Operation | null,
+    data: Category | null,
     isError?: boolean,
     isEmpty?: boolean,
     error?: { code: number; message: string }
@@ -21,19 +21,19 @@ export class OperationModel {
     this._meta = error;
   }
 
-  static Error(error: { code: number; message: string }): OperationModel {
-    return new OperationModel(this._emptyData, true, false, error);
+  static Error(error: { code: number; message: string }): CategoryModel {
+    return new CategoryModel(this._emptyData, true, false, error);
   }
 
-  static Empty(): OperationModel {
-    return new OperationModel(this._emptyData, false, true);
+  static Empty(): CategoryModel {
+    return new CategoryModel(this._emptyData, false, true);
   }
 
-  static fromDTO(dto: Operation): OperationModel {
-    return _isEmpty(dto) ? OperationModel.Empty() : new OperationModel(dto);
+  static fromDTO(dto: Category): CategoryModel {
+    return _isEmpty(dto) ? CategoryModel.Empty() : new CategoryModel(dto);
   }
 
-  toDTO(): Operation & { _isError: boolean; _isEmpty: boolean } {
+  toDTO(): Category & { _isError: boolean; _isEmpty: boolean } {
     return JSON.parse(JSON.stringify(this));
   }
 }
