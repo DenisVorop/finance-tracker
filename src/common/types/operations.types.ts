@@ -25,6 +25,9 @@ export interface OperationsDto {
   };
   total: number;
   totalPages: number;
+}
+
+export interface OperationsModelDto extends OperationsDto {
   _isError: boolean;
   _isEmpty: boolean;
 }
