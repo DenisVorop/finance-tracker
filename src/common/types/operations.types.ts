@@ -25,4 +25,6 @@ export interface OperationsDto {
   };
   total: number;
   totalPages: number;
+  _isError: boolean;
+  _isEmpty: boolean;
 }

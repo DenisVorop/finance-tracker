@@ -6,7 +6,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/ui/table";
-import { Skeleton } from "@/shared/ui/skeleton";
 import { Button } from "@/shared/ui/button";
 
 import { useOperations } from "../model/operations.model";
@@ -14,7 +13,7 @@ import { useOperations } from "../model/operations.model";
 import { OperationRow } from "./operation-row";
 
 export function OperationsList({ billId }: { billId?: number }) {
-  const { flatItems, isLoading, _isEmpty, hasNextPage, take, fetchNextPage } =
+  const { flatItems, isLoading, isSsrEmpty, hasNextPage, take, fetchNextPage } =
     useOperations({ billId });
 
   return (
@@ -29,22 +28,16 @@ export function OperationsList({ billId }: { billId?: number }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {_isEmpty && (
+        {isSsrEmpty ? (
           <TableRow>
             <TableCell colSpan={5}>Нет операций</TableCell>
           </TableRow>
+        ) : (
+          flatItems.map((operation) => {
+            return <OperationRow key={operation.id} {...operation} />;
+          })
         )}
-        {isLoading
-          ? Array.from({ length: 5 }).map((_, index) => (
-              <TableRow key={index}>
-                <TableCell colSpan={5} key={index}>
-                  <Skeleton className="h-[22px]" />
-                </TableCell>
-              </TableRow>
-            ))
-          : flatItems.map((operation) => {
-              return <OperationRow key={operation.id} {...operation} />;
-            })}
+
         {hasNextPage && (
           <TableRow>
             <TableCell colSpan={5}>

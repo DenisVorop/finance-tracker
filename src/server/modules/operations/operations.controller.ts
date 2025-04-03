@@ -10,16 +10,6 @@ export class OperationsController {
 
     const bills = await OperationsService.getOperations(req);
 
-    if (bills._isEmpty) {
-      return res.status(404).json({ error: "Ничего не найдено" });
-    }
-
-    if (bills._isError) {
-      return res
-        .status(bills._meta?.code || 500)
-        .json({ error: bills._meta?.message });
-    }
-
     return res.status(200).json(bills.toDTO());
   }
 
