@@ -17,7 +17,10 @@ const baseKey = "operations";
 
 export const setOperationsFromCtx = (ctx: App.PageContext) => {
   const params = ctx.req.__OPERATIONS__?.params;
-  return [[baseKey, params], ctx.req.__OPERATIONS__] as const;
+  return [
+    [baseKey, params],
+    { pages: [ctx.req.__OPERATIONS__], pageParams: [params] },
+  ] as const;
 };
 
 export function useOperations({
