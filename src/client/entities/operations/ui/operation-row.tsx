@@ -1,4 +1,4 @@
-import { exhaustiveCheck } from "@/shared/lib/exhaustive-check";
+import { exhaustiveCheck } from "common/lib/exhaustive-check";
 import { formatCurrency } from "@/shared/lib/format-number";
 import { cn } from "@/shared/lib/utils";
 import { TableCell, TableRow } from "@/shared/ui/table";
