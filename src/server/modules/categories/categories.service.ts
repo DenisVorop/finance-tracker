@@ -1,4 +1,5 @@
 import type { NextApiRequest } from "next/types";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 import { prisma } from "common/lib/prisma";
 import { categorySchema } from "common/schemas/category.schema";
@@ -39,7 +40,16 @@ export class CategoriesService {
       });
 
       return CategoryModel.fromDTO(dto);
-    } catch {
+    } catch (err) {
+      if (err instanceof PrismaClientKnownRequestError) {
+        if (err.code === "P2002") {
+          return CategoryModel.Error({
+            code: 400,
+            message: "Такая категория уже существует",
+          });
+        }
+      }
+
       return CategoryModel.Error({
         code: 500,
         message: "Internal Server Error",

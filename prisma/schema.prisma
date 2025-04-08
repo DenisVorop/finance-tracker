@@ -72,13 +72,15 @@ model Session {
 
 model Category {
   id          Int         @id @default(autoincrement())
-  name        String      @unique
+  name        String
   description String?
   operations  Operation[]
   user        User        @relation(fields: [userId], references: [id])
   userId      Int
   createdAt   DateTime    @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   updatedAt   DateTime    @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+
+  @@unique([name, userId])
 }
 
 model Operation {

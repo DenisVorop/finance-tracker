@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useCallback } from "react";
+import type { AxiosError } from "axios";
 
 import type { CategoriesDto } from "common/types/category.types";
 import { categoriesApi } from "@/shared/api/categories";
@@ -42,9 +43,12 @@ export function useCreateCategory({
       onSuccess?.();
       toast.success("Категория успешно добавлена!");
     },
-    onError: () => {
+    onError: (err: AxiosError<{ error: string }>) => {
+      const errorMessage =
+        err.response?.data?.error || "При создании категории произошла ошибка!";
+
       onError?.();
-      toast.error("При создании категории произошла ошибка!");
+      toast.error(errorMessage);
     },
   });
 
