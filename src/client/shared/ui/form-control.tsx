@@ -8,8 +8,7 @@ import { BillType } from "common/types/bill.types";
 import { billTypesMap } from "@/entities/bills";
 import { OperationType } from "common/types/operations.types";
 import { operationTypesMap } from "@/entities/operations";
-
-import { exhaustiveCheck } from "../lib/exhaustive-check";
+import { exhaustiveCheck } from "common/lib/exhaustive-check";
 
 import { FormField } from "./form";
 import { Input } from "./input";
