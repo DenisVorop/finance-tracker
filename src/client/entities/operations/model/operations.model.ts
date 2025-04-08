@@ -36,7 +36,7 @@ export function useOperations({
     pageSize: 10,
   });
 
-  const { data, isLoading, hasNextPage, fetchNextPage } =
+  const { data, isFetchingNextPage, hasNextPage, fetchNextPage } =
     useInfiniteQuery<OperationsModelDto>({
       queryKey: [baseKey, { ...params, billId }],
       queryFn: ({ pageParam = {}, signal }) => {
@@ -91,7 +91,7 @@ export function useOperations({
 
   return {
     flatItems,
-    isLoading,
+    isLoading: isFetchingNextPage,
     isSsrEmpty,
     isSsrError,
     total,
