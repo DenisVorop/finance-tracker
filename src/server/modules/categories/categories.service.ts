@@ -56,4 +56,57 @@ export class CategoriesService {
       });
     }
   }
+
+  static async deleteCategory(req: NextApiRequest) {
+    try {
+      const user = req.__USER__;
+      const id = Number(req.query.id);
+
+      const category = await prisma.category.findUnique({
+        where: { id, userId: user.id },
+      });
+
+      if (!category) {
+        return CategoryModel.Empty();
+      }
+
+      await prisma.category.delete({ where: { id: category.id } });
+
+      return CategoryModel.fromDTO(category);
+    } catch {
+      return CategoryModel.Error({
+        code: 500,
+        message: "Internal Server Error",
+      });
+    }
+  }
+
+  static async updateCategory(req: NextApiRequest) {
+    try {
+      const user = req.__USER__;
+      const id = Number(req.query.id);
+
+      const category = await prisma.category.findUnique({
+        where: { id, userId: user.id },
+      });
+
+      if (!category) {
+        return CategoryModel.Empty();
+      }
+
+      const data = await categorySchema.validate(req.body);
+
+      const updatedCategory = await prisma.category.update({
+        where: { id: category.id },
+        data,
+      });
+
+      return CategoryModel.fromDTO(updatedCategory);
+    } catch {
+      return CategoryModel.Error({
+        code: 500,
+        message: "Internal Server Error",
+      });
+    }
+  }
 }

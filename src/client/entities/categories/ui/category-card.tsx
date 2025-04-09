@@ -3,9 +3,9 @@ import type { Category } from "common/types/category.types";
 
 export function CategoryCard({ name, description }: Category) {
   return (
-    <Card>
-      <CardHeader>{name}</CardHeader>
-      <CardContent>{description}</CardContent>
+    <Card className="hover:border-primary transition-colors">
+      <CardHeader className="items-start">{name}</CardHeader>
+      <CardContent className="text-start">{description}</CardContent>
     </Card>
   );
 }

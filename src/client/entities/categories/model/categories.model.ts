@@ -68,3 +68,84 @@ export function useCreateCategory({
     isPending,
   };
 }
+
+export function useUpdateCategory({
+  onSuccess,
+  onError,
+}: { onSuccess?: () => void; onError?: () => void } = {}) {
+  const qClient = useQueryClient();
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: categoriesApi.updateCategory,
+    retry: 3,
+    onSuccess: () => {
+      qClient.refetchQueries({ queryKey: [baseKey] });
+      onSuccess?.();
+      toast.success("Категория успешно обновлена!");
+    },
+    onError: (err: AxiosError<{ error: string }>) => {
+      const errorMessage =
+        err.response?.data?.error ||
+        "При обновлении категории произошла ошибка!";
+
+      onError?.();
+      toast.error(errorMessage);
+    },
+  });
+
+  const updateCategory = useCallback(
+    async ({ id, data }: { id: number; data: CategoryFormData }) => {
+      try {
+        await mutateAsync({ id, data });
+      } catch {
+        // .keep
+      }
+    },
+    [mutateAsync]
+  );
+
+  return {
+    updateCategory,
+    isPending,
+  };
+}
+
+export function useDeleteCategory({
+  onSuccess,
+  onError,
+}: { onSuccess?: () => void; onError?: () => void } = {}) {
+  const qClient = useQueryClient();
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: categoriesApi.deleteCategory,
+    retry: 3,
+    onSuccess: () => {
+      qClient.refetchQueries({ queryKey: [baseKey] });
+      onSuccess?.();
+      toast.success("Категория успешно удалена!");
+    },
+    onError: (err: AxiosError<{ error: string }>) => {
+      const errorMessage =
+        err.response?.data?.error || "При удалении категории произошла ошибка!";
+
+      onError?.();
+      toast.error(errorMessage);
+    },
+  });
+
+  const deleteCategory = useCallback(
+    async (id: number) => {
+      try {
+        await mutateAsync(id);
+      } catch {
+        // .keep
+      }
+    },
+    [mutateAsync]
+  );
+
+  return {
+    deleteCategory,
+    isPending,
+  };
+}
