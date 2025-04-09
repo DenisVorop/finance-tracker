@@ -28,3 +28,27 @@ export function createCategory(
     options
   );
 }
+
+export function deleteCategory(id: number, options?: AxiosRequestConfig) {
+  return categoriesApiInstance<Category>(
+    {
+      url: `/categories/${id}`,
+      method: "DELETE",
+    },
+    options
+  );
+}
+
+export function updateCategory(
+  { id, data }: { id: number; data: CategoryFormData },
+  options?: AxiosRequestConfig
+) {
+  return categoriesApiInstance<Category>(
+    {
+      url: `/categories/${id}`,
+      method: "PUT",
+      data,
+    },
+    options
+  );
+}

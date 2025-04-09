@@ -1,31 +1,61 @@
+import { useCallback } from "react";
+import { Trash } from "lucide-react";
+
 import { Button } from "@/shared/ui/button";
 import { useResponsiveModal } from "@/shared/hooks/use-responsive-modal";
 import { FormControl } from "@/shared/ui/form-control";
-import { useCreateCategory } from "@/entities/categories";
+import { useDeleteCategory, useUpdateCategory } from "@/entities/categories";
+import type { CategoryFormData } from "common/schemas/category.schema";
 
 import { useCategoryForm } from "../../providers/category-form.provider";
 
-export function AddCategoryForm() {
+export function UpdateCategoryForm() {
   const { methods, toggle } = useCategoryForm();
+
+  const name = methods.getValues("name");
+  const id = methods.getValues("id");
 
   const { ModalHeader, ModalTitle, ModalContent, ModalClose } =
     useResponsiveModal();
 
-  const { createCategory, isPending } = useCreateCategory({
+  const { updateCategory, isPending } = useUpdateCategory({
     onSuccess: () => {
       toggle();
-      methods.reset();
     },
   });
+
+  const { deleteCategory, isPending: isPendingDelete } = useDeleteCategory({
+    onSuccess: () => {
+      toggle();
+    },
+  });
+
+  const handleUpdateCategory = useCallback(
+    (data: CategoryFormData) => {
+      if (!id) return;
+
+      updateCategory({ id, data });
+    },
+    [id, updateCategory]
+  );
+
+  const handleDeleteCategory = useCallback(() => {
+    if (!id) return;
+
+    const isConfirmed = confirm("Вы уверены, что хотите удалить категорию?");
+    if (!isConfirmed) return;
+
+    deleteCategory(id);
+  }, [deleteCategory, id]);
 
   return (
     <ModalContent side="bottom">
       <ModalHeader>
-        <ModalTitle>Создание новой категории</ModalTitle>
+        <ModalTitle>Обновление категории - {name}</ModalTitle>
       </ModalHeader>
 
       <form
-        onSubmit={methods.handleSubmit(createCategory)}
+        onSubmit={methods.handleSubmit(handleUpdateCategory)}
         className="flex flex-col gap-4 mt-4"
       >
         <div className="flex flex-col gap-4">
@@ -50,13 +80,23 @@ export function AddCategoryForm() {
 
         {/* Кнопки */}
         <div className="flex justify-end gap-2">
+          {id && (
+            <Button
+              type="reset"
+              isLoading={isPendingDelete}
+              onClick={handleDeleteCategory}
+              className="bg-red-600 hover:bg-red-700 text-white transition-colors mr-auto"
+            >
+              <Trash />
+            </Button>
+          )}
           <ModalClose>
             <Button type="button" variant="outline">
               Отменить
             </Button>
           </ModalClose>
           <Button type="submit" disabled={isPending}>
-            {isPending ? "Создание..." : "Создать"}
+            {isPending ? "Обновляем..." : "Обновить"}
           </Button>
         </div>
       </form>

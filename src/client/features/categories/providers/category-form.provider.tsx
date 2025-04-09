@@ -1,26 +1,43 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import type { ReactNode } from "react";
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
 import type { CategoryFormData } from "common/schemas/category.schema";
 import { categorySchema } from "common/schemas/category.schema";
+import type { Category } from "common/types/category.types";
 
 const initialCtx = {
-  methods: {} as UseFormReturn<CategoryFormData>,
+  methods: {} as UseFormReturn<Partial<Category> & CategoryFormData>,
   openModal: false,
   toggle: () => {},
+  setInitialData: (_: Partial<CategoryFormData>) => {},
 };
 
 const CategoryFormContext = createContext(initialCtx);
 
 export function CategoryFormProvider({ children }: { children?: ReactNode }) {
   const [openModal, setOpenModal] = useState(false);
-  const { formState, ...methods } = useForm<CategoryFormData>({
+  const { formState, ...methods } = useForm<
+    Partial<Category> & CategoryFormData
+  >({
     resolver: yupResolver(categorySchema),
     defaultValues: _prepareInitialData(),
   });
+
+  const setInitialData = useCallback(
+    (data: Partial<CategoryFormData>) => {
+      methods.reset(data);
+    },
+    [methods]
+  );
 
   const ctx = useMemo(
     () => ({
@@ -31,8 +48,10 @@ export function CategoryFormProvider({ children }: { children?: ReactNode }) {
 
       openModal,
       toggle: () => setOpenModal((prev) => !prev),
+
+      setInitialData,
     }),
-    [formState, methods, openModal]
+    [formState, methods, openModal, setInitialData]
   );
 
   return (

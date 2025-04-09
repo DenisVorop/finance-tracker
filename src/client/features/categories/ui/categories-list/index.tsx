@@ -1,9 +1,11 @@
-import { CategoryCard, useCategories } from "@/entities/categories";
+import { useCategories } from "@/entities/categories";
 
 import { AddCategoryCard } from "../add-category-card";
+import { CategoriesListCards } from "../categories-list-cards";
 
 export function CategoriesList() {
-  const { flatItems, isEmpty } = useCategories();
+  const { isEmpty } = useCategories();
+
   return (
     <>
       {isEmpty ? (
@@ -13,9 +15,7 @@ export function CategoriesList() {
         </div>
       ) : (
         <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
-          {flatItems.map((category) => {
-            return <CategoryCard key={category.id} {...category} />;
-          })}
+          <CategoriesListCards />
 
           <AddCategoryCard />
         </div>
