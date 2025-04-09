@@ -2,14 +2,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/shared/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
-import { useAuth } from "@/entities/auth";
 import { cn } from "@/shared/lib/utils";
 
 import { config } from "../lib/config";
 
+import { Avatar } from "./avatar";
+
 export function DesktopHeader() {
-  const [user] = useAuth();
   const pathname = usePathname();
 
   return (
@@ -31,13 +30,7 @@ export function DesktopHeader() {
             </Link>
           ))}
 
-          <Avatar>
-            <AvatarImage
-              src="https://github.com/shadcn.png"
-              alt="User Avatar"
-            />
-            <AvatarFallback>{user?.name?.[0]}</AvatarFallback>
-          </Avatar>
+          <Avatar />
         </nav>
       </div>
     </header>

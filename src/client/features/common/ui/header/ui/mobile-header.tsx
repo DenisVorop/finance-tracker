@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { UserRoundCog } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/shared/lib/utils";
 
 import { config } from "../lib/config";
+
+import { Avatar } from "./avatar";
 
 export function MobileHeader() {
   const pathname = usePathname();
@@ -29,7 +30,7 @@ export function MobileHeader() {
         ))}
 
         <div className="p-2 hover:text-accent-foreground hover:bg-accent transition-colors rounded-md">
-          <UserRoundCog size={24} absoluteStrokeWidth />
+          <Avatar />
         </div>
       </nav>
     </header>
