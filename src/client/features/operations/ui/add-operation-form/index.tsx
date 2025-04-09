@@ -72,6 +72,7 @@ export function AddOperationForm() {
             control={methods.control}
             controlType="text"
             type="number"
+            min={0}
             placeholder="500 ₽"
           />
 
