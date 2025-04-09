@@ -11,6 +11,7 @@ import {
   getOperationsQuerySchema,
   operationSchema,
 } from "common/schemas/operation.schema";
+import type { Category } from "common/types/category.types";
 
 import { OperationsModel } from "./models/operations.model";
 import { OperationModel } from "./models/operation.model";
@@ -87,9 +88,13 @@ export class OperationsService {
           },
         });
 
-        const category = await tx.category.findUnique({
-          where: { id: data.categoryId, userId: user.id },
-        });
+        let category: Category | null = null;
+
+        if (data.categoryId) {
+          category = await tx.category.findUnique({
+            where: { id: data.categoryId, userId: user.id },
+          });
+        }
 
         return { ...newOperation, bill: updatedBill, category };
       });
