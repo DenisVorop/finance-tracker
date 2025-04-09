@@ -1,7 +1,10 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 
-import type { ReportsModelDto } from "common/types/reports.types";
+import type {
+  ReportsModelDto,
+  ReportStatisticsModelDto,
+} from "common/types/reports.types";
 import { reportsApi } from "@/shared/api/reports";
 import type { GetReportsFormData } from "common/schemas/reports.schema";
 import { formatDate } from "common/lib/parse-date";
@@ -51,5 +54,20 @@ function _getBaseData() {
   return {
     startDate: formatDate(new Date(today.getFullYear(), today.getMonth(), 1)), // Первый день месяца
     endDate: formatDate(new Date(today.getFullYear(), today.getMonth() + 1, 0)), // Последний день месяца
+  };
+}
+
+export function useStatistics() {
+  const { data } = useQuery({
+    queryKey: [baseKey, "statistics"],
+    queryFn: reportsApi.getStatistics,
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
+
+  return {
+    data: data?.data,
+    isError: data?._isError,
+    isEmpty: data?._isEmpty,
   };
 }

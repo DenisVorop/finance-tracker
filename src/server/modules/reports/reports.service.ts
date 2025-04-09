@@ -1,5 +1,5 @@
 import type { NextApiRequest } from "next/types";
-import { format } from "date-fns";
+import { format, startOfWeek } from "date-fns";
 import { ru } from "date-fns/locale";
 import { ValidationError } from "yup";
 
@@ -11,6 +11,7 @@ import { getReportsSchema } from "common/schemas/reports.schema";
 import { parseDate } from "common/lib/parse-date";
 
 import { ChartOperationsModel } from "./models/reports.model";
+import { StatisticsModel } from "./models/statistics.model";
 
 export class ReportsService {
   static async getReports(req: NextApiRequest) {
@@ -18,9 +19,6 @@ export class ReportsService {
       const user = req.__USER__;
 
       const { startDate, endDate } = await getReportsSchema.validate(req.query);
-
-      // const start = new Date(startDate);
-      // const end = new Date(endDate);
 
       let start = new Date();
       let end = new Date();
@@ -95,6 +93,77 @@ export class ReportsService {
       }
 
       return ChartOperationsModel.Error({
+        code: 500,
+        message: "Internal Server Error",
+      });
+    }
+  }
+
+  static async getStatistics(req: NextApiRequest) {
+    try {
+      const user = req.__USER__;
+      const today = new Date();
+
+      const start = startOfWeek(new Date(), { weekStartsOn: 1 }); // Понедельник
+
+      const operations = await prisma.$queryRaw<
+        {
+          day: string;
+          income: number;
+          expense: number;
+        }[]
+      >`
+        SELECT 
+          DATE("date") as day,
+          SUM(CASE WHEN "type" = 'DEPOSIT' THEN "amount" ELSE 0 END) AS income,
+          SUM(CASE WHEN "type" = 'WITHDRAWAL' THEN "amount" ELSE 0 END) AS expense
+        FROM "Operation"
+        WHERE "userId" = ${user.id}
+        GROUP BY day
+      `;
+
+      let totalIncome = 0;
+      let totalExpense = 0;
+      let todayIncome = 0;
+      let todayExpense = 0;
+      let weekIncome = 0;
+      let weekExpense = 0;
+
+      for (const op of operations) {
+        const date = new Date(op.day);
+        const income = Number(op.income);
+        const expense = Number(op.expense);
+
+        totalIncome += income;
+        totalExpense += expense;
+
+        if (
+          date.getDate() === today.getDate() &&
+          date.getMonth() === today.getMonth() &&
+          date.getFullYear() === today.getFullYear()
+        ) {
+          todayIncome += income;
+          todayExpense += expense;
+        }
+
+        if (date >= start && date <= today) {
+          weekIncome += income;
+          weekExpense += expense;
+        }
+      }
+
+      const uniqueDays = operations.length || 1;
+
+      return StatisticsModel.fromDTO({
+        averageIncomePerDay: totalIncome / uniqueDays,
+        todayIncome,
+        weekIncome,
+        averageExpensePerDay: totalExpense / uniqueDays,
+        todayExpense,
+        weekExpense,
+      });
+    } catch (err) {
+      return StatisticsModel.Error({
         code: 500,
         message: "Internal Server Error",
       });
