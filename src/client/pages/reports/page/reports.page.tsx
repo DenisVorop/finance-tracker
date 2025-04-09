@@ -1,4 +1,4 @@
-import { ReportsHeader } from "@/features/reports";
+import { ReportsHeader, Statistics } from "@/features/reports";
 import { LineOperationsChart } from "@/entities/reports";
 
 export function ReportsPage() {
@@ -16,6 +16,8 @@ export function ReportsPage() {
           className="shadow-sm border-[1px] p-4 rounded-md bg-background"
         />
       </div>
+
+      <Statistics />
     </>
   );
 }
