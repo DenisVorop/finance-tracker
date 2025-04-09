@@ -102,7 +102,7 @@ async function main() {
     );
 
     operations.push({
-      amount: isIncome ? amount : -amount,
+      amount,
       type: (isIncome ? "DEPOSIT" : "WITHDRAWAL") as OperationType,
       userId: user.id,
       billId: bill.id,
