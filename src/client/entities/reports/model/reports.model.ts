@@ -71,3 +71,18 @@ export function useStatistics() {
     isEmpty: data?._isEmpty,
   };
 }
+
+export function useCategoriesSummary() {
+  const { data } = useQuery({
+    queryKey: [baseKey, "categories-summary"],
+    queryFn: reportsApi.getCategoriesSummary,
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
+
+  return {
+    data: data?.data,
+    isError: data?._isError,
+    isEmpty: data?._isEmpty,
+  };
+}

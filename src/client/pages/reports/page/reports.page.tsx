@@ -1,4 +1,8 @@
-import { ReportsHeader, Statistics } from "@/features/reports";
+import {
+  CategoriesSummary,
+  ReportsHeader,
+  Statistics,
+} from "@/features/reports";
 import { LineOperationsChart } from "@/entities/reports";
 
 export function ReportsPage() {
@@ -18,6 +22,8 @@ export function ReportsPage() {
       </div>
 
       <Statistics />
+
+      <CategoriesSummary />
     </>
   );
 }
