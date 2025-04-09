@@ -1,3 +1,5 @@
+import type { OperationType } from "./operations.types";
+
 export interface ReportDto {
   day: string;
   income: number;
@@ -21,6 +23,19 @@ export interface ReportStatisticsDto {
 
 export interface ReportStatisticsModelDto {
   data: ReportStatisticsDto;
+  _isError: boolean;
+  _isEmpty: boolean;
+}
+
+export interface CategorySummaryDto {
+  name: string;
+  amount: number;
+  type: OperationType;
+  percent: number;
+}
+
+export interface CategorySummaryModelDto {
+  data: CategorySummaryDto[];
   _isError: boolean;
   _isEmpty: boolean;
 }

@@ -10,7 +10,7 @@ export class ReportsController {
 
     const chart = await ReportsService.getReports(req);
 
-    return res.status(200).json(chart);
+    return res.status(200).json(chart.toDTO());
   }
 
   static async GetStatistics(req: NextApiRequest, res: NextApiResponse) {
@@ -19,6 +19,16 @@ export class ReportsController {
     }
 
     const statistics = await ReportsService.getStatistics(req);
+
+    return res.status(200).json(statistics.toDTO());
+  }
+
+  static async GetCategoriesSummary(req: NextApiRequest, res: NextApiResponse) {
+    if (!req.__USER__?.id) {
+      return res.status(401).json({ error: "Неавторизован" });
+    }
+
+    const statistics = await ReportsService.getCategoriesSummary(req);
 
     return res.status(200).json(statistics.toDTO());
   }

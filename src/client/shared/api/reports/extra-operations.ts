@@ -1,6 +1,7 @@
 import type { AxiosRequestConfig } from "axios";
 
 import type {
+  CategorySummaryModelDto,
   ReportsModelDto,
   ReportStatisticsModelDto,
 } from "common/types/reports.types";
@@ -26,6 +27,16 @@ export function getStatistics(options?: AxiosRequestConfig) {
   return reportsApiInstance<ReportStatisticsModelDto>(
     {
       url: `/reports/statistics`,
+      method: "GET",
+    },
+    options
+  );
+}
+
+export function getCategoriesSummary(options?: AxiosRequestConfig) {
+  return reportsApiInstance<CategorySummaryModelDto>(
+    {
+      url: `/reports/categories-summary`,
       method: "GET",
     },
     options

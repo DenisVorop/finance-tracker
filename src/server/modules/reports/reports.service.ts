@@ -4,7 +4,7 @@ import { ru } from "date-fns/locale";
 import { ValidationError } from "yup";
 
 import { prisma } from "common/lib/prisma";
-import type { ReportDto } from "common/types/reports.types";
+import type { CategorySummaryDto, ReportDto } from "common/types/reports.types";
 import { OperationType } from "common/types/operations.types";
 import { exhaustiveCheck } from "common/lib/exhaustive-check";
 import { getReportsSchema } from "common/schemas/reports.schema";
@@ -12,6 +12,7 @@ import { parseDate } from "common/lib/parse-date";
 
 import { ChartOperationsModel } from "./models/reports.model";
 import { StatisticsModel } from "./models/statistics.model";
+import { CategoriesSummaryModel } from "./models/categories-summary.model";
 
 export class ReportsService {
   static async getReports(req: NextApiRequest) {
@@ -162,8 +163,56 @@ export class ReportsService {
         todayExpense,
         weekExpense,
       });
-    } catch (err) {
+    } catch {
       return StatisticsModel.Error({
+        code: 500,
+        message: "Internal Server Error",
+      });
+    }
+  }
+
+  static async getCategoriesSummary(req: NextApiRequest) {
+    try {
+      const user = req.__USER__;
+
+      const categories = await prisma.$queryRaw<CategorySummaryDto[]>`
+      SELECT 
+        c."name" as name,
+        SUM(o."amount") as amount,
+        o."type" as type
+      FROM "Operation" o
+      JOIN "Category" c ON o."categoryId" = c."id"
+      WHERE o."userId" = ${user.id}
+      GROUP BY c."name", o."type"
+    `;
+
+      let totalIncome = 0;
+      let totalExpense = 0;
+
+      for (const c of categories) {
+        if (c.type === OperationType.DEPOSIT) totalIncome += Number(c.amount);
+        else if (c.type === OperationType.WITHDRAWAL)
+          totalExpense += Number(c.amount);
+      }
+
+      return CategoriesSummaryModel.fromDTO(
+        categories.map((c) => {
+          const amount = Number(c.amount);
+          const percent =
+            c.type === OperationType.DEPOSIT
+              ? (amount / totalIncome) * 100
+              : (amount / totalExpense) * 100;
+
+          return {
+            name: c.name,
+            amount,
+            type: c.type,
+            percent: Math.round(percent),
+          };
+        })
+      );
+    } catch {
+      return CategoriesSummaryModel.Error({
         code: 500,
         message: "Internal Server Error",
       });
