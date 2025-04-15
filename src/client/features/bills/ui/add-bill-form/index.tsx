@@ -35,6 +35,7 @@ export function AddBillForm() {
             name="name"
             controlType="text"
             control={methods.control}
+            errorMessage={methods.formState.errors.name?.message}
           />
 
           {/* Тип счёта */}
@@ -43,6 +44,7 @@ export function AddBillForm() {
             name="type"
             controlType="bill-type"
             control={methods.control}
+            errorMessage={methods.formState.errors.type?.message}
           />
 
           {/* Цвет фона */}
@@ -104,6 +106,7 @@ export function AddBillForm() {
           controlType="textarea"
           control={methods.control}
           placeholder="Основной счёт для повседневных операций"
+          errorMessage={methods.formState.errors.description?.message}
         />
 
         {/* Баланс */}
@@ -114,6 +117,7 @@ export function AddBillForm() {
           type="number"
           control={methods.control}
           placeholder="10500"
+          errorMessage={methods.formState.errors.balance?.message}
         />
 
         {/* Учитывать в общем балансе */}
@@ -122,6 +126,7 @@ export function AddBillForm() {
           name="includeInTotal"
           controlType="switch"
           control={methods.control}
+          errorMessage={methods.formState.errors.includeInTotal?.message}
         />
 
         {/* Кнопки */}

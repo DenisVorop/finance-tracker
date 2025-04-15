@@ -12,13 +12,13 @@ import { signInSchema } from "common/schemas/signin.schema";
 import { FormControl } from "@/shared/ui/form-control";
 
 export function SignInForm() {
-  const { mutateAsync } = useSignin({
+  const { mutateAsync, isPending } = useSignin({
     onSuccess() {
       navigate({ href: "/" });
     },
   });
 
-  const form = useForm<SignInFormData>({
+  const { control, formState, handleSubmit } = useForm<SignInFormData>({
     defaultValues: {
       email: "",
       password: "",
@@ -39,23 +39,25 @@ export function SignInForm() {
         <CardTitle>Вход в аккаунт</CardTitle>
       </CardHeader>
       <CardContent>
-        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <FormControl
-            control={form.control}
+            control={control}
             controlLabel="Email"
             controlType="text"
             type="email"
             name="email"
             placeholder="ivanov@yandex.ru"
+            errorMessage={formState.errors.email?.message}
           />
 
           <FormControl
-            control={form.control}
+            control={control}
             controlLabel="Пароль"
             controlType="text"
             type="password"
             name="password"
             placeholder="******"
+            errorMessage={formState.errors.password?.message}
           />
 
           <div className="text-right text-sm">
@@ -67,8 +69,8 @@ export function SignInForm() {
             </Link>
           </div>
 
-          <Button type="submit" className="w-full">
-            Войти
+          <Button type="submit" className="w-full" isLoading={isPending}>
+            {isPending ? "Входим..." : "Войти"}
           </Button>
 
           <div className="text-center text-sm">

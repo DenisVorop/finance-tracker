@@ -36,6 +36,7 @@ export function AddCategoryForm() {
             name="name"
             control={methods.control}
             placeholder="Подарки"
+            errorMessage={methods.formState.errors.name?.message}
           />
 
           {/* Описание */}
@@ -45,6 +46,7 @@ export function AddCategoryForm() {
             name="description"
             control={methods.control}
             placeholder="От сюрпризов до крупных подарков на праздники"
+            errorMessage={methods.formState.errors.description?.message}
           />
         </div>
 

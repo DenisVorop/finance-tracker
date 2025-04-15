@@ -47,6 +47,7 @@ export function AddOperationForm() {
             control={methods.control}
             name="billId"
             controlLabel="Выберите счёт"
+            errorMessage={methods.formState.errors.billId?.message}
           />
 
           {/* Категория */}
@@ -55,6 +56,7 @@ export function AddOperationForm() {
             name="categoryId"
             control={methods.control}
             controlType="categories"
+            errorMessage={methods.formState.errors.categoryId?.message}
           />
 
           {/* Тип операции */}
@@ -63,6 +65,7 @@ export function AddOperationForm() {
             name="type"
             control={methods.control}
             controlType="operation-type"
+            errorMessage={methods.formState.errors.type?.message}
           />
 
           {/* Сумма */}
@@ -74,6 +77,7 @@ export function AddOperationForm() {
             type="number"
             min={0}
             placeholder="500 ₽"
+            errorMessage={methods.formState.errors.amount?.message}
           />
 
           {/* Дата */}
@@ -83,6 +87,7 @@ export function AddOperationForm() {
             name="date"
             controlLabel="Дата"
             placeholder="Выберите дату"
+            errorMessage={methods.formState.errors.date?.message}
           />
 
           {/* Комментарий */}
@@ -93,6 +98,7 @@ export function AddOperationForm() {
               controlType="textarea"
               control={methods.control}
               placeholder="Оплата обеда"
+              errorMessage={methods.formState.errors.note?.message}
             />
           </div>
         </div>

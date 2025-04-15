@@ -4,7 +4,10 @@ import { useBillForm } from "../../providers/bill-form.provider";
 
 export function BillInfo() {
   const {
-    methods: { control },
+    methods: {
+      control,
+      formState: { errors },
+    },
   } = useBillForm();
 
   return (
@@ -15,6 +18,7 @@ export function BillInfo() {
         controlType="textarea"
         control={control}
         className="max-h-32 h-32"
+        errorMessage={errors.description?.message}
       />
 
       <div className="grid md:grid-cols-2 gap-4">
@@ -23,6 +27,7 @@ export function BillInfo() {
           name="type"
           controlType="bill-type"
           control={control}
+          errorMessage={errors.type?.message}
         />
 
         <FormControl
@@ -31,6 +36,7 @@ export function BillInfo() {
           controlType="text"
           type="number"
           control={control}
+          errorMessage={errors.balance?.message}
         />
 
         <div />
@@ -40,6 +46,7 @@ export function BillInfo() {
           name="includeInTotal"
           controlType="switch"
           control={control}
+          errorMessage={errors.includeInTotal?.message}
         />
       </div>
     </div>
