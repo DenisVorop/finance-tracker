@@ -94,7 +94,6 @@ export function FormControl<T extends ControlType, F extends FieldValues>(
     control,
     rules,
     errorMessage,
-    helperText,
     controlLabel,
     ...restProps
   } = props;
@@ -270,6 +269,9 @@ export function FormControl<T extends ControlType, F extends FieldValues>(
           }
         }}
       />
+      {errorMessage && (
+        <span className="text-red-500 text-xs">{errorMessage}</span>
+      )}
     </div>
   );
 }

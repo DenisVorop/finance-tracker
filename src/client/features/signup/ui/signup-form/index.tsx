@@ -18,7 +18,7 @@ export function SignUpForm() {
     },
   });
 
-  const form = useForm<SignUpFormData>({
+  const { control, formState, handleSubmit } = useForm<SignUpFormData>({
     defaultValues: {
       email: "",
       password: "",
@@ -41,32 +41,35 @@ export function SignUpForm() {
       </CardHeader>
 
       <CardContent>
-        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <FormControl
-            control={form.control}
+            control={control}
             name="email"
             controlType="text"
             controlLabel="Email"
             type="email"
             placeholder="ivanov@yandex.ru"
+            errorMessage={formState.errors.email?.message}
           />
 
           <FormControl
-            control={form.control}
+            control={control}
             name="password"
             controlType="text"
             controlLabel="Пароль"
             type="password"
             placeholder="******"
+            errorMessage={formState.errors.password?.message}
           />
 
           <FormControl
-            control={form.control}
+            control={control}
             name="confirmPassword"
             controlType="text"
             controlLabel="Повторите пароль"
             type="password"
             placeholder="******"
+            errorMessage={formState.errors.confirmPassword?.message}
           />
 
           <Button type="submit" className="w-full" isLoading={isPending}>
