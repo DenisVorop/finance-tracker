@@ -9,7 +9,7 @@
     "lint": "next lint",
     "shadcn": "npx shadcn@latest add",
     "seed": "prisma db seed",
-    "postinstall": "prisma generate && npx prisma db seed"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
