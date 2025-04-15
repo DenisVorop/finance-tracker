@@ -22,7 +22,9 @@ export function BillCard({
       className={className}
     >
       <CardHeader className="flex items-center justify-between gap-4 flex-row">
-        <div className="text font-medium">{name}</div>
+        <div className="text font-medium truncate" title={name}>
+          {name}
+        </div>
         <div>{emoji}</div>
       </CardHeader>
 
