@@ -7,14 +7,22 @@ import {
   TableRow,
 } from "@/shared/ui/table";
 import { Button } from "@/shared/ui/button";
+import { Skeleton } from "@/shared/ui/skeleton";
 
 import { useOperations } from "../model/operations.model";
 
 import { OperationRow } from "./operation-row";
 
 export function OperationsList({ billId }: { billId?: number }) {
-  const { flatItems, isLoading, isSsrEmpty, hasNextPage, take, fetchNextPage } =
-    useOperations({ billId });
+  const {
+    flatItems,
+    isFetchingNextPage,
+    isSsrEmpty,
+    hasNextPage,
+    take,
+    isPending,
+    fetchNextPage,
+  } = useOperations({ billId });
 
   return (
     <div className="flex flex-col gap-4">
@@ -29,7 +37,15 @@ export function OperationsList({ billId }: { billId?: number }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {isSsrEmpty ? (
+          {isPending ? (
+            Array.from({ length: 5 }).map((_, index) => (
+              <TableRow key={index}>
+                <TableCell colSpan={5}>
+                  <Skeleton className="h-[23px] w-full rounded-md" />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : isSsrEmpty ? (
             <TableRow>
               <TableCell colSpan={5}>Нет операций</TableCell>
             </TableRow>
@@ -44,7 +60,7 @@ export function OperationsList({ billId }: { billId?: number }) {
       {hasNextPage && (
         <Button
           className="w-full"
-          isLoading={isLoading}
+          isLoading={isFetchingNextPage}
           onClick={() => fetchNextPage()}
         >
           Загрузить ещё {take}

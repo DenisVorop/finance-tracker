@@ -2,7 +2,7 @@ import axios from "axios";
 
 export function createHttpClient(baseURL: string) {
   return axios.create({
-    timeout: 5000,
+    timeout: 15_000,
     responseType: "json",
     headers: {
       "X-Requested-With": "XMLHttpRequest",
