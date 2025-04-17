@@ -103,7 +103,8 @@ export class AuthService {
       });
 
       return SignInModel.fromDTO({ accessToken, refreshToken });
-    } catch {
+    } catch (error) {
+      console.error(error);
       return SignInModel.Error();
     }
   }

@@ -6,7 +6,6 @@ import {
   type DataBaseOperation,
   type Operation,
 } from "common/types/operations.types";
-import { sleep } from "@/shared/lib/sleep";
 import {
   getOperationsQuerySchema,
   operationSchema,
@@ -22,9 +21,6 @@ export class OperationsService {
       const user = req.__USER__;
       const { page, pageSize, billId } =
         await getOperationsQuerySchema.validate(req.query);
-
-      // TODO: Имитация задержки
-      await sleep(800);
 
       const [total, operations] = await prisma.$transaction([
         prisma.operation.count({
