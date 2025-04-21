@@ -2,8 +2,13 @@ import type { OperationType } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { faker } from "@faker-js/faker";
+import { PrismaLibSQL } from "@prisma/adapter-libsql";
 
-const prisma = new PrismaClient();
+const adapter = new PrismaLibSQL({
+  url: `${process.env.LIBSQL_DATABASE_URL}`,
+  authToken: `${process.env.LIBSQL_DATABASE_TOKEN}`,
+});
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   // Создание пользователя
@@ -107,7 +112,7 @@ async function main() {
       userId: user.id,
       billId: bill.id,
       categoryId: category.id,
-      note: faker.lorem.words(3),
+      note: faker.word.words(3),
       date: faker.date.recent({ days: 90 }), // последние 90 дней
     });
   }
