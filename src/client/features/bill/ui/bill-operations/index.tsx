@@ -12,7 +12,7 @@ export function BillOperations() {
         <AddOperationTrigger />
       </div>
 
-      <OperationsList billId={bill.id} />
+      <OperationsList billId={bill?.id} />
     </div>
   );
 }

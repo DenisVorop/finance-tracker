@@ -19,7 +19,7 @@ export function BillFormProvider({ children }: { children?: ReactNode }) {
   const bill = useBill();
   const { formState, ...methods } = useForm<BillFormData>({
     resolver: yupResolver(billSchema),
-    defaultValues: { ...bill, description: bill.description || "" },
+    defaultValues: { ...bill, description: bill?.description || "" },
   });
 
   const updateBill = useStableCallback((data: BillFormData) => {
@@ -27,6 +27,7 @@ export function BillFormProvider({ children }: { children?: ReactNode }) {
   });
 
   useEffect(() => {
+    if (!bill) return;
     updateBill(bill);
   }, [bill, updateBill]);
 

@@ -25,12 +25,12 @@ function AddOperationTriggerBase() {
       toggle();
       setInitialData({
         userId: user?.id,
-        billId: bill.id,
+        billId: bill?.id,
         date: new Date(),
         type: OperationType.WITHDRAWAL,
       });
     },
-    [bill.id, methods, setInitialData, toggle, user?.id]
+    [bill?.id, methods, setInitialData, toggle, user?.id]
   );
 
   return (

@@ -27,20 +27,22 @@ export function BillActions() {
   const handleRemoveBill = useCallback(async () => {
     const confirm = window.confirm("Вы уверены, что хотите удалить счет?");
 
-    if (!confirm) return;
+    if (!confirm || !bill) return;
 
     await deleteBill(bill.id);
-  }, [bill.id, deleteBill]);
+  }, [bill?.id, deleteBill]);
 
   const handleUpdateBill = useCallback(
     async (data: BillFormData) => {
+      if (!bill) return;
+
       const updatedBill = await updateBill(bill.id, data);
 
       if (!updatedBill) return;
 
       reset(updatedBill);
     },
-    [bill.id, reset, updateBill]
+    [bill?.id, reset, updateBill]
   );
 
   return (
