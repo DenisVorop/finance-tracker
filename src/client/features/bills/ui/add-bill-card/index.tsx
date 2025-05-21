@@ -28,14 +28,14 @@ function AddBillCardBase() {
   return (
     <Modal open={openModal} onOpenChange={onOpenChange}>
       <ModalTrigger>
-        <Card className="hover:border-primary cursor-pointer transition-colors animate-pulse">
+        <Card className="hover:border-primary cursor-pointer transition-colors bg-slate-900">
           <CardHeader className="flex items-center justify-between gap-4 flex-row">
             <div className="text font-medium">Добавить счет</div>
           </CardHeader>
 
           <CardContent>
             <div className="text-secondary text-left">Тип счета</div>
-            <Skeleton className="h-9 w-full rounded-md" />
+            <Skeleton className="h-9 w-full rounded-md animate-none" />
           </CardContent>
         </Card>
       </ModalTrigger>

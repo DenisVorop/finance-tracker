@@ -1,4 +1,5 @@
 import { useBills } from "@/entities/bills";
+import { formatCurrency } from "@/shared/lib/format-number";
 import { cn } from "@/shared/lib/utils";
 import { PageHeader } from "@/shared/ui/page-header";
 
@@ -14,12 +15,7 @@ export function BillsHeader() {
         <span className="text-secondary">Общая сумма всех счётов</span>
         <span className="title-secondary lg:title">
           <span className={cn(totalAmountColor)}>
-            {new Intl.NumberFormat("ru-RU", {
-              style: "currency",
-              currency: "RUB",
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 2,
-            }).format(totalAmount)}
+            {formatCurrency(totalAmount)}
           </span>
         </span>
       </div>

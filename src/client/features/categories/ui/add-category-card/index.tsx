@@ -47,7 +47,7 @@ function AddCategoryCardBase<T extends "button" | "card">({
             Добавить
           </div>
         ) : (
-          <Card className="hover:border-primary cursor-pointer transition-colors animate-pulse">
+          <Card className="hover:border-primary cursor-pointer transition-colors bg-slate-900">
             <CardHeader className="flex items-center justify-between gap-4 flex-row">
               <div className="text font-medium">Новая категория</div>
             </CardHeader>

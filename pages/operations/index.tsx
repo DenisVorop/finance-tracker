@@ -11,15 +11,10 @@ export default OperationsPage;
 
 export const getServerSideProps = protectedRoute(
   async (ctx: App.PageContext) => {
-    const [operations] = await Promise.all([
-      operationsApi.getOperations(
-        {
-          page: 1,
-          pageSize: 10,
-        },
-        { headers: ctx.req.headers }
-      ),
-    ]);
+    const operations = await operationsApi.getOperations(
+      { page: 1, pageSize: 10 },
+      { headers: ctx.req.headers }
+    );
 
     ctx.req.__OPERATIONS__ = operations;
 

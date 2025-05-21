@@ -1,10 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 
-import type {
-  ReportsModelDto,
-  ReportStatisticsModelDto,
-} from "common/types/reports.types";
+import type { ReportsModelDto } from "common/types/reports.types";
 import { reportsApi } from "@/shared/api/reports";
 import type { GetReportsFormData } from "common/schemas/reports.schema";
 import { formatDate } from "common/lib/parse-date";
