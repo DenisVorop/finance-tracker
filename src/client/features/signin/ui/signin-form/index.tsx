@@ -60,15 +60,6 @@ export function SignInForm() {
             errorMessage={formState.errors.password?.message}
           />
 
-          <div className="text-right text-sm">
-            <Link
-              href="/forgot-password"
-              className="text-blue-500 hover:underline"
-            >
-              Забыли пароль?
-            </Link>
-          </div>
-
           <Button type="submit" className="w-full" isLoading={isPending}>
             {isPending ? "Входим..." : "Войти"}
           </Button>
