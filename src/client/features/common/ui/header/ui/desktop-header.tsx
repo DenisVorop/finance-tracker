@@ -13,7 +13,7 @@ export function DesktopHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky p-4 shadow-sm top-0 backdrop-blur-sm border-b">
+    <header className="sticky p-4 shadow-sm top-0 backdrop-blur-sm border-b z-[2]">
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-2">
           <img src={logo.src} width={36} height={36} className="rounded-xl" />
