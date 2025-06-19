@@ -61,9 +61,10 @@ export class AuthService {
       });
 
       return AuthModel.fromDTO({ status: "ok", code: 200 });
-    } catch {
-      return AuthModel.Error();
-    }
+    } catch (err) {
+  console.error("❌ Error in signUp:", err);
+  return AuthModel.Error();
+}
   }
 
   static async signIn(req: NextApiRequest) {
